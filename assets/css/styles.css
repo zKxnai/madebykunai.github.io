@@ -116,7 +116,6 @@ body {
     opacity: 1;
 }
 
-/* Icon appearance switching - UPDATED */
 .app-icon img {
     width: 100%;
     height: 100%;
@@ -127,7 +126,6 @@ body {
     left: 0;
 }
 
-/* Show light icon by default */
 .app-icon .icon-light {
     display: block;
 }
@@ -136,7 +134,6 @@ body {
     display: none;
 }
 
-/* Switch to dark icon in dark mode */
 @media (prefers-color-scheme: dark) {
     .app-icon .icon-light {
         display: none;
@@ -202,9 +199,9 @@ body {
     background: linear-gradient(135deg, rgb(60, 60, 60) 0%, rgb(45, 45, 45) 100%);
     padding: 40px;
     border-radius: 20px;
-    max-width: 600px;
+    max-width: 700px;
     width: 90%;
-    max-height: 80vh;
+    max-height: 85vh;
     overflow-y: auto;
     box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5);
     transform: scale(0.9) translateY(20px);
@@ -242,6 +239,7 @@ body {
     justify-content: center;
     border-radius: 50%;
     transition: all 0.2s ease;
+    flex-shrink: 0;
 }
 
 .close-btn:hover {
@@ -252,7 +250,6 @@ body {
 .changelog-content {
     color: rgba(255, 255, 255, 0.85);
     line-height: 1.8;
-    white-space: pre-wrap;
     font-size: 0.95rem;
 }
 
@@ -261,59 +258,12 @@ body {
     font-style: italic;
 }
 
-html {
-    scroll-behavior: smooth;
-}
-
-.parallax {
-    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .apps-grid {
-        grid-template-columns: 1fr;
-        gap: 80px;
-        padding: 0 20px;
-    }
-
-    .hero h1 {
-        font-size: 2.5rem;
-    }
-
-    .modal-content {
-        padding: 30px 20px;
-    }
-
-    .app-icon {
-        width: 160px;
-        height: 160px;
-    }
-}
-
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-    width: 12px;
-}
-
-::-webkit-scrollbar-track {
-    background: rgb(40, 40, 40);
-}
-
-::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 6px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.3);
-}
-
 /* Release History Styles */
 .release-item {
     margin-bottom: 32px;
     padding-bottom: 32px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: left;
 }
 
 .release-item:last-child {
@@ -336,7 +286,7 @@ html {
     align-items: center;
     margin-bottom: 16px;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 12px;
 }
 
 .release-version {
@@ -379,12 +329,14 @@ html {
     font-size: 0.9rem;
     color: rgba(255, 255, 255, 0.5);
     font-weight: 400;
+    flex-shrink: 0;
 }
 
 .release-body {
     color: rgba(255, 255, 255, 0.85);
     line-height: 1.8;
     font-size: 0.95rem;
+    text-align: left;
 }
 
 .no-releases {
@@ -394,21 +346,54 @@ html {
     font-size: 1rem;
 }
 
-/* Update modal content to allow better scrolling */
-.modal-content {
-    background: linear-gradient(135deg, rgb(60, 60, 60) 0%, rgb(45, 45, 45) 100%);
-    padding: 40px;
-    border-radius: 20px;
-    max-width: 700px;
-    width: 90%;
-    max-height: 85vh;
-    overflow-y: auto;
-    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5);
-    transform: scale(0.9) translateY(20px);
-    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+html {
+    scroll-behavior: smooth;
 }
 
+.parallax {
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
+    .apps-grid {
+        grid-template-columns: 1fr;
+        gap: 80px;
+        padding: 0 20px;
+    }
+
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .modal-content {
+        padding: 30px 20px;
+        max-width: 95%;
+    }
+
+    .app-icon {
+        width: 160px;
+        height: 160px;
+    }
+    
     .release-version {
         font-size: 1.25rem;
     }
@@ -418,8 +403,7 @@ html {
         align-items: flex-start;
     }
     
-    .modal-content {
-        padding: 30px 20px;
-        max-width: 95%;
+    .release-date {
+        font-size: 0.85rem;
     }
 }
