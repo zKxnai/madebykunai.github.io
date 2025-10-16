@@ -1,7 +1,6 @@
 name: Update App Versions
 
 on:
-  # Only run manually or on schedule, NOT on every push
   workflow_dispatch:
   schedule:
     - cron: '0 */6 * * *'
