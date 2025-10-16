@@ -1,5 +1,5 @@
 // App Configuration
-const USE_STATIC_DATA = false; // Set to true to use app-data.json from GitHub Actions
+const USE_STATIC_DATA = true; // Set to true to use app-data.json from GitHub Actions
 
 const apps = [
     {
