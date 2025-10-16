@@ -1,12 +1,8 @@
 name: Update App Versions
 
 on:
-  # Run when you push to main branch
-  push:
-    branches: [main]
-  # Run manually from Actions tab
+  # Only run manually or on schedule, NOT on every push
   workflow_dispatch:
-  # Run every 6 hours automatically
   schedule:
     - cron: '0 */6 * * *'
 
@@ -20,8 +16,6 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -34,14 +28,16 @@ jobs:
         run: |
           node scripts/process-releases.js
 
+      - name: Check for changes
+        id: check_changes
+        run: |
+          git diff --exit-code app-data.json || echo "changed=true" >> $GITHUB_OUTPUT
+
       - name: Commit and Push Changes
+        if: steps.check_changes.outputs.changed == 'true'
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add app-data.json
-          if git diff --cached --quiet; then
-            echo "No changes to commit"
-          else
-            git commit -m "🤖 Update app versions [skip ci]"
-            git push
-          fi
+          git commit -m "🤖 Update app versions"
+          git push

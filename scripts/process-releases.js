@@ -22,6 +22,8 @@ function fetchReleaseData(repo) {
             }
         };
 
+        console.log(`🔍 Fetching: https://api.github.com/repos/${repo}/releases/latest`);
+
         const req = https.request(options, (res) => {
             let data = '';
 
@@ -30,9 +32,20 @@ function fetchReleaseData(repo) {
             });
 
             res.on('end', () => {
+                console.log(`📡 Response status for ${repo}: ${res.statusCode}`);
+                
                 if (res.statusCode === 200) {
                     try {
                         const releaseData = JSON.parse(data);
+                        
+                        // DEBUG: Log what we got from API
+                        console.log(`📝 API Response for ${repo}:`);
+                        console.log(`   - tag_name: ${releaseData.tag_name}`);
+                        console.log(`   - name: ${releaseData.name}`);
+                        console.log(`   - body length: ${releaseData.body ? releaseData.body.length : 0} chars`);
+                        console.log(`   - body content: ${releaseData.body ? releaseData.body.substring(0, 100) : 'NULL/EMPTY'}...`);
+                        console.log(`   - html_url: ${releaseData.html_url}`);
+                        
                         resolve({
                             version: releaseData.tag_name || releaseData.name || 'vX.X',
                             changelog: releaseData.body || 'No changelog available',
@@ -40,7 +53,8 @@ function fetchReleaseData(repo) {
                             publishedAt: releaseData.published_at || new Date().toISOString()
                         });
                     } catch (error) {
-                        console.error(`Error parsing JSON for ${repo}:`, error);
+                        console.error(`❌ Error parsing JSON for ${repo}:`, error);
+                        console.error(`Raw response: ${data.substring(0, 200)}...`);
                         resolve({
                             version: 'vX.X',
                             changelog: 'No changelog available',
@@ -49,7 +63,16 @@ function fetchReleaseData(repo) {
                         });
                     }
                 } else {
-                    console.log(`No release found for ${repo} (Status: ${res.statusCode})`);
+                    console.log(`⚠️  No release found for ${repo} (Status: ${res.statusCode})`);
+                    if (res.statusCode === 404) {
+                        console.log(`   Possible reasons:`);
+                        console.log(`   - Repository not found or private without proper token`);
+                        console.log(`   - No releases exist yet`);
+                    } else if (res.statusCode === 401 || res.statusCode === 403) {
+                        console.log(`   Authentication issue! Check your GH_PAT token`);
+                    }
+                    console.log(`   Response: ${data.substring(0, 200)}`);
+                    
                     resolve({
                         version: 'vX.X',
                         changelog: 'No changelog available',
@@ -61,7 +84,7 @@ function fetchReleaseData(repo) {
         });
 
         req.on('error', (error) => {
-            console.error(`Request error for ${repo}:`, error);
+            console.error(`❌ Request error for ${repo}:`, error);
             reject(error);
         });
 
@@ -72,11 +95,12 @@ function fetchReleaseData(repo) {
 // Main execution
 async function main() {
     console.log('🚀 Starting to fetch release data...\n');
+    console.log(`🔑 Token present: ${process.env.GITHUB_TOKEN ? 'YES (length: ' + process.env.GITHUB_TOKEN.length + ')' : 'NO - THIS IS A PROBLEM!'}\n`);
 
     const appData = [];
 
     for (const app of repos) {
-        console.log(`📦 Fetching ${app.name} from ${app.repo}...`);
+        console.log(`\n📦 Fetching ${app.name} from ${app.repo}...`);
         try {
             const releaseData = await fetchReleaseData(app.repo);
             appData.push({
@@ -86,7 +110,8 @@ async function main() {
                 releaseUrl: releaseData.releaseUrl,
                 lastUpdated: releaseData.publishedAt
             });
-            console.log(`✅ ${app.name}: ${releaseData.version}\n`);
+            console.log(`✅ ${app.name}: ${releaseData.version}`);
+            console.log(`   Changelog: ${releaseData.changelog.substring(0, 50)}...`);
         } catch (error) {
             console.error(`❌ Failed to fetch ${app.name}:`, error, '\n');
             appData.push({
@@ -111,12 +136,14 @@ async function main() {
         'utf8'
     );
 
-    console.log('✅ Successfully generated app-data.json');
+    console.log('\n✅ Successfully generated app-data.json');
     console.log(`📄 Total apps processed: ${appData.length}`);
+    console.log('\n📋 Final ');
+    console.log(JSON.stringify(outputData, null, 2));
 }
 
 // Run the script
 main().catch(error => {
-    console.error('Fatal error:', error);
+    console.error('💥 Fatal error:', error);
     process.exit(1);
 });
