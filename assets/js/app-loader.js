@@ -82,35 +82,29 @@ async function initializeApps() {
     if (USE_STATIC_DATA) {
         console.log('Using static data mode');
         appsData = await loadStaticData();
-    } else {
-        console.log('Using API mode');
     }
 
     for (const app of apps) {
-        let version, changelog, releaseUrl;
+        let version, releases;
 
         if (appsData) {
             const staticApp = appsData.find(a => a.name === app.name);
             if (staticApp) {
                 version = staticApp.version;
-                changelog = staticApp.changelog;
-                releaseUrl = staticApp.releaseUrl;
-                console.log(`Loaded ${app.name}: v${version}`);
+                releases = staticApp.releases || [];
+                console.log(`Loaded ${app.name}: v${version} with ${releases.length} releases`);
             } else {
                 console.warn(`No data found for ${app.name} in static data`);
                 version = 'vX.X';
-                changelog = 'No data available';
-                releaseUrl = '#';
+                releases = [];
             }
         } else {
-            const releaseData = await fetchReleaseData(app.repo);
-            version = releaseData.version;
-            changelog = releaseData.changelog;
-            releaseUrl = releaseData.releaseUrl;
+            version = 'vX.X';
+            releases = [];
         }
 
-        // Store changelog for modal
-        window.changelogData[app.name] = { changelog, releaseUrl };
+        // Store all releases for modal
+        window.changelogData[app.name] = { releases };
         
         const appCard = document.createElement('div');
         appCard.className = 'app-card parallax';

@@ -8,12 +8,12 @@ const repos = [
     { name: 'Kompoze', repo: 'zKxnai/Kompoze' }
 ];
 
-// GitHub API request function
-function fetchReleaseData(repo) {
+// Fetch ALL releases for a repo (not just latest)
+function fetchAllReleases(repo) {
     return new Promise((resolve, reject) => {
         const options = {
             hostname: 'api.github.com',
-            path: `/repos/${repo}/releases/latest`,
+            path: `/repos/${repo}/releases?per_page=100`, // Fetch up to 100 releases
             method: 'GET',
             headers: {
                 'User-Agent': 'GitHub-Actions-Version-Updater',
@@ -22,7 +22,7 @@ function fetchReleaseData(repo) {
             }
         };
 
-        console.log(`🔍 Fetching: https://api.github.com/repos/${repo}/releases/latest`);
+        console.log(`🔍 Fetching all releases: https://api.github.com/repos/${repo}/releases`);
 
         const req = https.request(options, (res) => {
             let data = '';
@@ -36,49 +36,39 @@ function fetchReleaseData(repo) {
                 
                 if (res.statusCode === 200) {
                     try {
-                        const releaseData = JSON.parse(data);
+                        const releases = JSON.parse(data);
+                        console.log(`📦 Found ${releases.length} releases for ${repo}`);
                         
-                        // DEBUG: Log what we got from API
-                        console.log(`📝 API Response for ${repo}:`);
-                        console.log(`   - tag_name: ${releaseData.tag_name}`);
-                        console.log(`   - name: ${releaseData.name}`);
-                        console.log(`   - body length: ${releaseData.body ? releaseData.body.length : 0} chars`);
-                        console.log(`   - body content: ${releaseData.body ? releaseData.body.substring(0, 100) : 'NULL/EMPTY'}...`);
-                        console.log(`   - html_url: ${releaseData.html_url}`);
-                        
-                        resolve({
-                            version: releaseData.tag_name || releaseData.name || 'vX.X',
-                            changelog: releaseData.body || 'No changelog available',
-                            releaseUrl: releaseData.html_url || '#',
-                            publishedAt: releaseData.published_at || new Date().toISOString()
+                        if (releases.length === 0) {
+                            resolve([]);
+                            return;
+                        }
+
+                        // Map all releases to our format
+                        const releasesList = releases.map((release, index) => {
+                            const changelogLength = release.body ? release.body.length : 0;
+                            if (index === 0) { // Only log details for latest
+                                console.log(`📝 Latest release (${release.tag_name}):`);
+                                console.log(`   - body length: ${changelogLength} chars`);
+                            }
+                            
+                            return {
+                                version: release.tag_name || release.name || 'Unknown',
+                                changelog: release.body || 'No changelog available',
+                                releaseUrl: release.html_url || '#',
+                                publishedAt: release.published_at || release.created_at || new Date().toISOString(),
+                                isPrerelease: release.prerelease || false
+                            };
                         });
+
+                        resolve(releasesList);
                     } catch (error) {
                         console.error(`❌ Error parsing JSON for ${repo}:`, error);
-                        console.error(`Raw response: ${data.substring(0, 200)}...`);
-                        resolve({
-                            version: 'vX.X',
-                            changelog: 'No changelog available',
-                            releaseUrl: '#',
-                            publishedAt: new Date().toISOString()
-                        });
+                        resolve([]);
                     }
                 } else {
-                    console.log(`⚠️  No release found for ${repo} (Status: ${res.statusCode})`);
-                    if (res.statusCode === 404) {
-                        console.log(`   Possible reasons:`);
-                        console.log(`   - Repository not found or private without proper token`);
-                        console.log(`   - No releases exist yet`);
-                    } else if (res.statusCode === 401 || res.statusCode === 403) {
-                        console.log(`   Authentication issue! Check your GH_PAT token`);
-                    }
-                    console.log(`   Response: ${data.substring(0, 200)}`);
-                    
-                    resolve({
-                        version: 'vX.X',
-                        changelog: 'No changelog available',
-                        releaseUrl: '#',
-                        publishedAt: new Date().toISOString()
-                    });
+                    console.log(`⚠️  Failed to fetch releases for ${repo} (Status: ${res.statusCode})`);
+                    resolve([]);
                 }
             });
         });
@@ -102,23 +92,47 @@ async function main() {
     for (const app of repos) {
         console.log(`\n📦 Fetching ${app.name} from ${app.repo}...`);
         try {
-            const releaseData = await fetchReleaseData(app.repo);
-            appData.push({
-                name: app.name,
-                version: releaseData.version,
-                changelog: releaseData.changelog,
-                releaseUrl: releaseData.releaseUrl,
-                lastUpdated: releaseData.publishedAt
-            });
-            console.log(`✅ ${app.name}: ${releaseData.version}`);
-            console.log(`   Changelog: ${releaseData.changelog.substring(0, 50)}...`);
+            const releases = await fetchAllReleases(app.repo);
+            
+            if (releases.length > 0) {
+                // Latest version is the first one
+                const latestRelease = releases[0];
+                
+                appData.push({
+                    name: app.name,
+                    version: latestRelease.version,
+                    releases: releases, // Store ALL releases
+                    lastUpdated: latestRelease.publishedAt
+                });
+                
+                console.log(`✅ ${app.name}: ${latestRelease.version} (${releases.length} total releases)`);
+            } else {
+                appData.push({
+                    name: app.name,
+                    version: 'vX.X',
+                    releases: [{
+                        version: 'vX.X',
+                        changelog: 'No releases found',
+                        releaseUrl: '#',
+                        publishedAt: new Date().toISOString(),
+                        isPrerelease: false
+                    }],
+                    lastUpdated: new Date().toISOString()
+                });
+                console.log(`⚠️  ${app.name}: No releases found`);
+            }
         } catch (error) {
             console.error(`❌ Failed to fetch ${app.name}:`, error, '\n');
             appData.push({
                 name: app.name,
                 version: 'vX.X',
-                changelog: 'Unable to fetch release data',
-                releaseUrl: '#',
+                releases: [{
+                    version: 'vX.X',
+                    changelog: 'Unable to fetch release data',
+                    releaseUrl: '#',
+                    publishedAt: new Date().toISOString(),
+                    isPrerelease: false
+                }],
                 lastUpdated: new Date().toISOString()
             });
         }
@@ -138,8 +152,6 @@ async function main() {
 
     console.log('\n✅ Successfully generated app-data.json');
     console.log(`📄 Total apps processed: ${appData.length}`);
-    console.log('\n📋 Final ');
-    console.log(JSON.stringify(outputData, null, 2));
 }
 
 // Run the script
