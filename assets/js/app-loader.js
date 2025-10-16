@@ -1,5 +1,5 @@
 // App Configuration
-const USE_STATIC_DATA = true; // Set to true to use app-data.json from GitHub Actions
+const USE_STATIC_DATA = true;
 
 const apps = [
     {
@@ -28,6 +28,7 @@ window.changelogData = {};
 // Fetch release data from GitHub API (works for public repos without auth)
 async function fetchReleaseData(repo) {
     try {
+        console.log(`Fetching release data for: ${repo}`);
         const response = await fetch(`https://api.github.com/repos/${repo}/releases/latest`);
         
         if (response.ok) {
@@ -38,6 +39,7 @@ async function fetchReleaseData(repo) {
                 releaseUrl: data.html_url
             };
         } else {
+            console.warn(`Failed to fetch ${repo}: Status ${response.status}`);
             return {
                 version: 'vX.X',
                 changelog: 'No changelog available',
@@ -57,10 +59,14 @@ async function fetchReleaseData(repo) {
 // Load from static JSON (for private repos using GitHub Actions)
 async function loadStaticData() {
     try {
+        console.log('Loading static data from app-data.json');
         const response = await fetch('app-data.json');
         if (response.ok) {
             const data = await response.json();
+            console.log('Static data loaded:', data);
             return data.apps;
+        } else {
+            console.error('Failed to load app-data.json:', response.status);
         }
     } catch (error) {
         console.error('Error loading static ', error);
@@ -74,7 +80,10 @@ async function initializeApps() {
     let appsData;
 
     if (USE_STATIC_DATA) {
+        console.log('Using static data mode');
         appsData = await loadStaticData();
+    } else {
+        console.log('Using API mode');
     }
 
     for (const app of apps) {
@@ -86,6 +95,12 @@ async function initializeApps() {
                 version = staticApp.version;
                 changelog = staticApp.changelog;
                 releaseUrl = staticApp.releaseUrl;
+                console.log(`Loaded ${app.name}: v${version}`);
+            } else {
+                console.warn(`No data found for ${app.name} in static data`);
+                version = 'vX.X';
+                changelog = 'No data available';
+                releaseUrl = '#';
             }
         } else {
             const releaseData = await fetchReleaseData(app.repo);
@@ -105,13 +120,14 @@ async function initializeApps() {
                 <img src="${app.iconDark}" alt="${app.name} icon" class="icon-dark" onerror="this.style.display='none'">
             </div>
             <h2 class="app-name">${app.name}</h2>
-            <p class="app-version">Current Version: ${version}</p>
+            <p class="app-version">Current Version: v${version}</p>
             <a class="changelog-link" onclick="openChangelog('${app.name}')">Changelog</a>
         `;
         
         appsGrid.appendChild(appCard);
     }
     
+    console.log('Changelog ', window.changelogData);
     observeElements();
 }
 
