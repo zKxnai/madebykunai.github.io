@@ -116,15 +116,18 @@ body {
     opacity: 1;
 }
 
-/* Icon appearance switching */
+/* Icon appearance switching - UPDATED */
 .app-icon img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     border-radius: 42px;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
-/* Show light icon by default and in light mode */
+/* Show light icon by default */
 .app-icon .icon-light {
     display: block;
 }

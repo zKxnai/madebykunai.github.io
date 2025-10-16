@@ -1,0 +1,27 @@
+{
+    "apps": [
+      {
+        "name": "Cashly",
+        "version": "v1.0.0",
+        "changelog": "Initial release\n- Feature 1\n- Feature 2\n- Bug fixes",
+        "releaseUrl": "https://github.com/zKxnai/Cashly/releases",
+        "lastUpdated": "2025-10-16T14:00:00Z"
+      },
+      {
+        "name": "readme",
+        "version": "v1.0.0",
+        "changelog": "Initial release\n- Feature 1\n- Feature 2\n- Bug fixes",
+        "releaseUrl": "https://github.com/zKxnai/readme/releases",
+        "lastUpdated": "2025-10-16T14:00:00Z"
+      },
+      {
+        "name": "Kompoze",
+        "version": "v1.0.0",
+        "changelog": "Initial release\n- Feature 1\n- Feature 2\n- Bug fixes",
+        "releaseUrl": "https://github.com/zKxnai/Kompoze/releases",
+        "lastUpdated": "2025-10-16T14:00:00Z"
+      }
+    ],
+    "generatedAt": "2025-10-16T14:00:00Z"
+  }
+  
