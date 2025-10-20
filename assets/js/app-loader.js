@@ -6,19 +6,22 @@ const apps = [
         name: 'Cashly',
         iconLight: 'assets/icons/cashly.png',
         iconDark: 'assets/icons/cashly-dark.png',
-        repo: 'zKxnai/Cashly'
+        repo: 'zKxnai/Cashly',
+        releaseStatus: 'TBA'
     },
     {
         name: 'readme',
         iconLight: 'assets/icons/readme.png',
         iconDark: 'assets/icons/readme-dark.png',
-        repo: 'zKxnai/readme'
+        repo: 'zKxnai/readme',
+        releaseStatus: 'TBA'
     },
     {
         name: 'Kompoze',
         iconLight: 'assets/icons/kompoze.png',
         iconDark: 'assets/icons/kompoze-dark.png',
-        repo: 'zKxnai/Kompoze'
+        repo: 'zKxnai/Kompoze',
+        releaseStatus: 'TBA'
     }
 ];
 
@@ -116,6 +119,7 @@ async function initializeApps() {
             <h2 class="app-name">${app.name}</h2>
             <p class="app-version">Current Version: v${version}</p>
             <a class="changelog-link" onclick="openChangelog('${app.name}')">Changelog</a>
+            <p class="app-release-status">Release: ${app.releaseStatus}</p>
         `;
         
         appsGrid.appendChild(appCard);
