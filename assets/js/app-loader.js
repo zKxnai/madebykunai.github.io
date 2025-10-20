@@ -119,7 +119,7 @@ async function initializeApps() {
             <h2 class="app-name">${app.name}</h2>
             <p class="app-version">Current Version: v${version}</p>
             <a class="changelog-link" onclick="openChangelog('${app.name}')">Changelog</a>
-            <p class="app-release-status">Release: ${app.releaseStatus}</p>
+            <p class="app-release-status">Release: <span class="status-value">${app.releaseStatus}</span></p>
         `;
         
         appsGrid.appendChild(appCard);

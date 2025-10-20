@@ -1,0 +1,20 @@
+{
+    "name": "Apps made by Kunai",
+    "short_name": "Apps by Kunai",
+    "icons": [
+        {
+        "src": "assets/icons/apple-touch-icon.png",
+        "sizes": "180x180",
+        "type": "image/png"
+        },
+        {
+        "src": "assets/icons/apple-touch-icon-152.png",
+        "sizes": "152x152",
+        "type": "image/png"
+        }
+    ],
+    "theme_color": "#333333",
+    "background_color": "#333333",
+    "display": "standalone"
+}
+  
