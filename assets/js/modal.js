@@ -47,12 +47,14 @@ window.openChangelog = function(appName) {
     }
     
     modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
 }
 
 // Close Modal
 window.closeModal = function() {
     const modal = document.getElementById('changelogModal');
     modal.classList.remove('active');
+    document.body.style.overflow = 'auto';
 }
 
 // Close modal on outside click
