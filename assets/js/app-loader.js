@@ -7,24 +7,21 @@ const apps = [
         iconLight: 'assets/icons/cashly.png',
         iconDark: 'assets/icons/cashly-dark.png',
         repo: 'zKxnai/Cashly',
-        releaseStatus: 'TBA',
-        screenshot: 'assets/screenshots/cashly.png'
+        releaseStatus: 'TBA'
     },
     {
         name: 'readme',
         iconLight: 'assets/icons/readme.png',
         iconDark: 'assets/icons/readme-dark.png',
         repo: 'zKxnai/readme',
-        releaseStatus: 'TBA',
-        screenshot: 'assets/screenshots/readme.png'
+        releaseStatus: 'TBA'
     },
     {
         name: 'Kompoze',
         iconLight: 'assets/icons/kompoze.png',
         iconDark: 'assets/icons/kompoze-dark.png',
         repo: 'zKxnai/Kompoze',
-        releaseStatus: 'TBA',
-        screenshot: 'assets/screenshots/kompoze.png'
+        releaseStatus: 'TBA'
     }
 ];
 
