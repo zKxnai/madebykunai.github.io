@@ -148,6 +148,7 @@ body {
     transform: translateY(0) scale(1);
 }
 
+/*
 .app-card:hover {
     transform: translateY(-10px) scale(1.02);
     border-color: rgba(10, 132, 255, 0.3);
@@ -155,7 +156,7 @@ body {
         0 30px 60px rgba(10, 132, 255, 0.15),
         0 0 80px rgba(10, 132, 255, 0.1);
 }
-
+*/
 /* App-Specific Glow Colors */
 
 /* Cashly - Green Glow */

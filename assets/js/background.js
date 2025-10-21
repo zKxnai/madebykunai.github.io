@@ -42,7 +42,7 @@ class IconBackground {
             // Cashly colors
             '#00D851', '#00A751',
             // readme colors  
-            '#C600FF', '#EE2A7B',
+            '#C600FF', '#CD1288',
             // Kompoze colors
             '#63E3FA', '#00D851'
         ];
