@@ -7,21 +7,24 @@ const apps = [
         iconLight: 'assets/icons/cashly.png',
         iconDark: 'assets/icons/cashly-dark.png',
         repo: 'zKxnai/Cashly',
-        releaseStatus: 'TBA'
+        releaseStatus: 'TBA',
+        colorClass: 'cashly-glow'
     },
     {
         name: 'readme',
         iconLight: 'assets/icons/readme.png',
         iconDark: 'assets/icons/readme-dark.png',
         repo: 'zKxnai/readme',
-        releaseStatus: 'TBA'
+        releaseStatus: 'TBA',
+        colorClass: 'readme-glow'
     },
     {
         name: 'Kompoze',
         iconLight: 'assets/icons/kompoze.png',
         iconDark: 'assets/icons/kompoze-dark.png',
         repo: 'zKxnai/Kompoze',
-        releaseStatus: 'TBA'
+        releaseStatus: 'TBA',
+        colorClass: 'kompoze-glow'
     }
 ];
 
@@ -110,7 +113,7 @@ async function initializeApps() {
         window.changelogData[app.name] = { releases };
         
         const appCard = document.createElement('div');
-        appCard.className = 'app-card parallax';
+        appCard.className = 'app-card';
         appCard.innerHTML = `
             <div class="app-icon">
                 <img src="${app.iconLight}" alt="${app.name} icon" class="icon-light" onerror="this.style.display='none'">

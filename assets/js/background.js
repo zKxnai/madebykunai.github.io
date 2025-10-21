@@ -39,8 +39,12 @@ class IconBackground {
     createIcons() {
         const iconCount = Math.floor((window.innerWidth * window.innerHeight) / 15000);
         const colors = [
-            '#0a84ff', '#ff9f0a', '#ff453a', '#30d158', 
-            '#bf5af2', '#ff375f', '#5ac8fa', '#ffd60a'
+            // Cashly colors
+            '#00D851', '#00A751',
+            // readme colors  
+            '#C600FF', '#EE2A7B',
+            // Kompoze colors
+            '#63E3FA', '#00D851'
         ];
         
         for (let i = 0; i < iconCount; i++) {
