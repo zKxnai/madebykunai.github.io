@@ -149,11 +149,8 @@ body {
 }
 
 
-.app-card:hover .app-icon {
-    transform: scale(1.1) translateY(-5px);
-    box-shadow:
-        0 20px 40px rgba(0, 0, 0, 0.4),
-        0 0 0 1px rgba(255, 255, 255, 0.1);
+.app-card:hover {
+    transform: translateY(-10px) scale(1.02);
 }
 
 /* App-Specific Glow Colors */
@@ -164,10 +161,11 @@ body {
 }
 
 .app-card.cashly-glow:hover {
-    border-color: rgba(0, 216, 81, 0.3) !important;
+    transform: translateY(-10px) scale(1.02);
+    border-color: rgba(0, 216, 81, 0.3);
     box-shadow:
         0 30px 60px rgba(0, 216, 81, 0.2),
-        0 0 80px rgba(0, 216, 81, 0.15) !important;
+        0 0 80px rgba(0, 216, 81, 0.15);
 }
 
 /* readme - Purple/Pink Glow */
@@ -176,10 +174,11 @@ body {
 }
 
 .app-card.readme-glow:hover {
-    border-color: rgba(198, 0, 255, 0.3) !important;
+    transform: translateY(-10px) scale(1.02);
+    border-color: rgba(198, 0, 255, 0.3);
     box-shadow:
         0 30px 60px rgba(198, 0, 255, 0.2),
-        0 0 80px rgba(238, 42, 123, 0.15) !important;
+        0 0 80px rgba(238, 42, 123, 0.15);
 }
 
 /* Kompoze - Cyan Glow */
@@ -188,10 +187,11 @@ body {
 }
 
 .app-card.kompoze-glow:hover {
-    border-color: rgba(99, 227, 250, 0.3) !important;
+    transform: translateY(-10px) scale(1.02);
+    border-color: rgba(99, 227, 250, 0.3);
     box-shadow:
         0 30px 60px rgba(99, 227, 250, 0.2),
-        0 0 80px rgba(99, 227, 250, 0.15) !important;
+        0 0 80px rgba(99, 227, 250, 0.15);
 }
 
 /* App Icon */
