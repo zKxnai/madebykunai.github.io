@@ -113,26 +113,17 @@ async function initializeApps() {
         window.changelogData[app.name] = { releases };
         
         const appCard = document.createElement('div');
-        appCard.className = 'app-card parallax with-mockup';
+        appCard.className = 'app-card parallax';
         appCard.innerHTML = `
-            <div class="app-mockup">
-                <div class="iphone-frame">
-                    <div class="dynamic-island"></div>
-                    <div class="iphone-screen">
-                        ${app.screenshot ? 
-                            `<img src="${app.screenshot}" alt="${app.name} screenshot">` :
-                            `<div class="screenshot-placeholder">
-                                <img src="${app.iconDark}" alt="${app.name}" style="width: 80px; height: 80px; border-radius: 18px;">
-                            </div>`
-                        }
-                    </div>
-                </div>
+            <div class="app-icon">
+                <img src="${app.iconLight}" alt="${app.name} icon" class="icon-light" onerror="this.style.display='none'">
+                <img src="${app.iconDark}" alt="${app.name} icon" class="icon-dark" onerror="this.style.display='none'">
             </div>
             <h2 class="app-name">${app.name}</h2>
             <p class="app-version">Current Version: v${version}</p>
             <a class="changelog-link" onclick="openChangelog('${app.name}')">Changelog</a>
             <p class="app-release-status">Release: <span class="status-value">${app.releaseStatus}</span></p>
-        `;
+        `;        
         
         appsGrid.appendChild(appCard);
     }
