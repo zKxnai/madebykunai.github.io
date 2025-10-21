@@ -149,8 +149,11 @@ body {
 }
 
 
-.app-card:hover {
-    transform: translateY(-10px) scale(1.02);
+.app-card:hover .app-icon {
+    transform: scale(1.1) translateY(-5px);
+    box-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
 /* App-Specific Glow Colors */
@@ -201,7 +204,7 @@ body {
     align-items: center;
     justify-content: center;
     transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    box-shadow: 
+    box-shadow:
         0 20px 40px rgba(0, 0, 0, 0.4),
         0 0 0 1px rgba(255, 255, 255, 0.1);
     position: relative;
