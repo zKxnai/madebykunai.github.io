@@ -7,21 +7,24 @@ const apps = [
         iconLight: 'assets/icons/cashly.png',
         iconDark: 'assets/icons/cashly-dark.png',
         repo: 'zKxnai/Cashly',
-        releaseStatus: 'TBA'
+        releaseStatus: 'TBA',
+        screenshot: 'assets/screenshots/cashly.png'
     },
     {
         name: 'readme',
         iconLight: 'assets/icons/readme.png',
         iconDark: 'assets/icons/readme-dark.png',
         repo: 'zKxnai/readme',
-        releaseStatus: 'TBA'
+        releaseStatus: 'TBA',
+        screenshot: 'assets/screenshots/readme.png'
     },
     {
         name: 'Kompoze',
         iconLight: 'assets/icons/kompoze.png',
         iconDark: 'assets/icons/kompoze-dark.png',
         repo: 'zKxnai/Kompoze',
-        releaseStatus: 'TBA'
+        releaseStatus: 'TBA',
+        screenshot: 'assets/screenshots/kompoze.png'
     }
 ];
 
@@ -110,11 +113,20 @@ async function initializeApps() {
         window.changelogData[app.name] = { releases };
         
         const appCard = document.createElement('div');
-        appCard.className = 'app-card parallax';
+        appCard.className = 'app-card parallax with-mockup';
         appCard.innerHTML = `
-            <div class="app-icon">
-                <img src="${app.iconLight}" alt="${app.name} icon" class="icon-light" onerror="this.style.display='none'">
-                <img src="${app.iconDark}" alt="${app.name} icon" class="icon-dark" onerror="this.style.display='none'">
+            <div class="app-mockup">
+                <div class="iphone-frame">
+                    <div class="dynamic-island"></div>
+                    <div class="iphone-screen">
+                        ${app.screenshot ? 
+                            `<img src="${app.screenshot}" alt="${app.name} screenshot">` :
+                            `<div class="screenshot-placeholder">
+                                <img src="${app.iconDark}" alt="${app.name}" style="width: 80px; height: 80px; border-radius: 18px;">
+                            </div>`
+                        }
+                    </div>
+                </div>
             </div>
             <h2 class="app-name">${app.name}</h2>
             <p class="app-version">Current Version: v${version}</p>
@@ -125,7 +137,7 @@ async function initializeApps() {
         appsGrid.appendChild(appCard);
     }
     
-    console.log('Changelog ', window.changelogData);
+    console.log('Changelog data:', window.changelogData);
     observeElements();
 }
 
