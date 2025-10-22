@@ -148,50 +148,49 @@ body {
     transform: translateY(0) scale(1);
 }
 
-
 .app-card:hover {
     transform: translateY(-10px) scale(1.02);
+    border-color: rgba(10, 132, 255, 0.3);
+    box-shadow:
+        0 30px 60px rgba(10, 132, 255, 0.15),
+        0 0 80px rgba(10, 132, 255, 0.1);
 }
 
-/* App-Specific Glow Colors */
-
+/* App-Specific Glow Colors - OVERRIDE the blue */
 /* Cashly - Green Glow */
 .app-card.cashly-glow::before {
-    background: radial-gradient(circle at 50% 0%, rgba(0, 216, 81, 0.15), transparent 50%);
+    background: radial-gradient(circle at 50% 0%, rgba(0, 216, 81, 0.1), transparent 50%);
 }
 
 .app-card.cashly-glow:hover {
-    transform: translateY(-10px) scale(1.02);
     border-color: rgba(0, 216, 81, 0.3);
     box-shadow:
-        0 30px 60px rgba(0, 216, 81, 0.2),
-        0 0 80px rgba(0, 216, 81, 0.15);
+        0 30px 60px rgba(0, 216, 81, 0.15),
+        0 0 80px rgba(0, 216, 81, 0.1);
 }
 
 /* readme - Purple/Pink Glow */
 .app-card.readme-glow::before {
-    background: radial-gradient(circle at 50% 0%, rgba(198, 0, 255, 0.15), transparent 50%);
+    background: radial-gradient(circle at 50% 0%, rgba(198, 0, 255, 0.1), transparent 50%);
 }
 
 .app-card.readme-glow:hover {
-    transform: translateY(-10px) scale(1.02);
     border-color: rgba(198, 0, 255, 0.3);
     box-shadow:
-        0 30px 60px rgba(198, 0, 255, 0.2),
-        0 0 80px rgba(238, 42, 123, 0.15);
+        0 30px 60px rgba(198, 0, 255, 0.15),
+        0 0 80px rgba(238, 42, 123, 0.1);
 }
 
 /* Kompoze - Cyan Glow */
 .app-card.kompoze-glow::before {
-    background: radial-gradient(circle at 50% 0%, rgba(99, 227, 250, 0.15), transparent 50%);
+    background: radial-gradient(circle at 50% 0%, rgba(99, 227, 250, 0.1), transparent 50%);
 }
 
 .app-card.kompoze-glow:hover {
-    transform: translateY(-10px) scale(1.02);
     border-color: rgba(99, 227, 250, 0.3);
     box-shadow:
-        0 30px 60px rgba(99, 227, 250, 0.2),
-        0 0 80px rgba(99, 227, 250, 0.15);
+        0 30px 60px rgba(99, 227, 250, 0.15),
+        0 0 80px rgba(99, 227, 250, 0.1);
 }
 
 /* App Icon */
