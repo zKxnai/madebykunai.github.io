@@ -113,7 +113,7 @@ async function initializeApps() {
         window.changelogData[app.name] = { releases };
         
         const appCard = document.createElement('div');
-        appCard.className = 'app-card';
+        appCard.className = `app-card ${app.colorClass}`;
         appCard.innerHTML = `
             <div class="app-icon">
                 <img src="${app.iconLight}" alt="${app.name} icon" class="icon-light" onerror="this.style.display='none'">
