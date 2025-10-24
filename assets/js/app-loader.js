@@ -8,7 +8,8 @@ const apps = [
         iconDark: 'assets/icons/cashly-dark.png',
         repo: 'zKxnai/Cashly',
         releaseStatus: 'TBA',
-        colorClass: 'cashly-glow'
+        colorClass: 'cashly-glow',
+        description: 'Budget planner app to track monthly expenses and save for planned purchases'
     },
     {
         name: 'readme',
@@ -16,7 +17,8 @@ const apps = [
         iconDark: 'assets/icons/readme-dark.png',
         repo: 'zKxnai/readme',
         releaseStatus: 'TBA',
-        colorClass: 'readme-glow'
+        colorClass: 'readme-glow',
+        description: 'Reading tracker to manage your book collection, series, and reviews'
     },
     {
         name: 'Kompoze',
@@ -24,7 +26,8 @@ const apps = [
         iconDark: 'assets/icons/kompoze-dark.png',
         repo: 'zKxnai/Kompoze',
         releaseStatus: 'TBA',
-        colorClass: 'kompoze-glow'
+        colorClass: 'kompoze-glow',
+        description: 'Photography companion to organize locations, notes, and editing workflow'
     }
 ];
 
@@ -120,6 +123,7 @@ async function initializeApps() {
                 <img src="${app.iconDark}" alt="${app.name} icon" class="icon-dark" onerror="this.style.display='none'">
             </div>
             <h2 class="app-name">${app.name}</h2>
+            <p class="app-description">${app.description}</p>
             <p class="app-version">Current Version: v${version}</p>
             <a class="changelog-link" onclick="openChangelog('${app.name}')">Changelog</a>
             <p class="app-release-status">Release: <span class="status-value">${app.releaseStatus}</span></p>
