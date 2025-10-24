@@ -9,7 +9,7 @@ const apps = [
         repo: 'zKxnai/Cashly',
         releaseStatus: 'TBA',
         colorClass: 'cashly-glow',
-        description: 'Budget planner app to track monthly expenses and save for planned purchases'
+        description: 'Budget planner app to track monthly expenses and save planned purchases'
     },
     {
         name: 'readme',
