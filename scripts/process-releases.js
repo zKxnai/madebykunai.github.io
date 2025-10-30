@@ -109,9 +109,9 @@ async function main() {
             } else {
                 appData.push({
                     name: app.name,
-                    version: 'vX.X',
+                    version: 'X.X',
                     releases: [{
-                        version: 'vX.X',
+                        version: 'X.X',
                         changelog: 'No releases found',
                         releaseUrl: '#',
                         publishedAt: new Date().toISOString(),
@@ -125,9 +125,9 @@ async function main() {
             console.error(`❌ Failed to fetch ${app.name}:`, error, '\n');
             appData.push({
                 name: app.name,
-                version: 'vX.X',
+                version: 'X.X',
                 releases: [{
-                    version: 'vX.X',
+                    version: 'X.X',
                     changelog: 'Unable to fetch release data',
                     releaseUrl: '#',
                     publishedAt: new Date().toISOString(),

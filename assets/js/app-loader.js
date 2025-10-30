@@ -43,14 +43,14 @@ async function fetchReleaseData(repo) {
         if (response.ok) {
             const data = await response.json();
             return {
-                version: data.tag_name || data.name || 'vX.X',
+                version: data.tag_name || data.name || 'X.X',
                 changelog: data.body || 'No changelog available',
                 releaseUrl: data.html_url
             };
         } else {
             console.warn(`Failed to fetch ${repo}: Status ${response.status}`);
             return {
-                version: 'vX.X',
+                version: 'X.X',
                 changelog: 'No changelog available',
                 releaseUrl: '#'
             };
@@ -58,7 +58,7 @@ async function fetchReleaseData(repo) {
     } catch (error) {
         console.error('Error fetching release ', error);
         return {
-            version: 'vX.X',
+            version: 'X.X',
             changelog: 'No changelog available',
             releaseUrl: '#'
         };
@@ -101,14 +101,14 @@ async function initializeApps() {
             if (staticApp) {
                 version = staticApp.version;
                 releases = staticApp.releases || [];
-                console.log(`Loaded ${app.name}: v${version} with ${releases.length} releases`);
+                console.log(`Loaded ${app.name}: ${version} with ${releases.length} releases`);
             } else {
                 console.warn(`No data found for ${app.name} in static data`);
-                version = 'vX.X';
+                version = 'X.X';
                 releases = [];
             }
         } else {
-            version = 'vX.X';
+            version = 'X.X';
             releases = [];
         }
 
@@ -124,7 +124,7 @@ async function initializeApps() {
             </div>
             <h2 class="app-name">${app.name}</h2>
             <p class="app-description">${app.description}</p>
-            <p class="app-version">Current Version: v${version}</p>
+            <p class="app-version">Current Version: ${version}</p>
             <a class="changelog-link" onclick="openChangelog('${app.name}')">Changelog</a>
             <p class="app-release-status">Release: <span class="status-value">${app.releaseStatus}</span></p>
         `;        
