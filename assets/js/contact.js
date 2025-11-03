@@ -1,4 +1,4 @@
-// Contact Form Handler
+// Contact Form Handler with Web3Forms
 class ContactForm {
     constructor() {
         this.modal = document.getElementById('contactModal');
@@ -43,7 +43,7 @@ class ContactForm {
         this.modal.classList.add('active');
         document.body.style.overflow = 'hidden';
         
-        this.initModalBackground();
+        setTimeout(() => this.initModalBackground(), 100);
     }
     
     closeModal() {
@@ -57,30 +57,41 @@ class ContactForm {
     }
     
     initModalBackground() {
-        // Create canvas for modal background
-        let canvas = document.getElementById('modalBackground');
+        // Check if IconBackground exists
+        if (!window.IconBackground) {
+            console.warn('IconBackground not found');
+            return;
+        }
+        
+        // Create canvas if it doesn't exist
+        let canvas = this.modal.querySelector('canvas');
         if (!canvas) {
             canvas = document.createElement('canvas');
             canvas.id = 'modalBackground';
-            canvas.className = 'iconBackground';
             this.modal.insertBefore(canvas, this.modal.firstChild);
         }
         
-        if (window.IconBackground) {
+        // Initialize background
+        try {
             this.background = new IconBackground('modalBackground');
+        } catch (error) {
+            console.error('Failed to initialize background:', error);
         }
     }
     
     destroyModalBackground() {
-        // Stop animation and clean up
         if (this.background) {
-            if (this.background.destroy) {
+            // Check for various cleanup methods
+            if (typeof this.background.destroy === 'function') {
                 this.background.destroy();
+            } else if (typeof this.background.stop === 'function') {
+                this.background.stop();
             }
             this.background = null;
         }
         
-        const canvas = document.getElementById('modalBackground');
+        // Remove canvas
+        const canvas = this.modal.querySelector('canvas');
         if (canvas) {
             canvas.remove();
         }
@@ -89,30 +100,31 @@ class ContactForm {
     async handleSubmit(e) {
         e.preventDefault();
         
-        const formData = {
-            name: document.getElementById('contactName').value,
-            email: document.getElementById('contactEmail').value,
-            topic: document.getElementById('contactTopic').value,
-            message: document.getElementById('contactMessage').value
-        };
-        
         // Show loading state
         this.statusElement.textContent = 'Wird gesendet...';
         this.statusElement.className = 'form-status loading';
         
         try {
-            // Format email body
-            const emailBody = `Name: ${formData.name}%0D%0AE-Mail: ${formData.email}%0D%0ABetreff: ${formData.topic}%0D%0A%0D%0ANachricht:%0D%0A${encodeURIComponent(formData.message)}`;
+            const formData = new FormData(this.form);
             
-            // Open mailto link
-            window.location.href = `mailto:feedback@madebykunai.dev?subject=Kontaktformular: ${formData.topic}&body=${emailBody}`;
+            const response = await fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                body: formData
+            });
             
-            // Show success message
-            this.statusElement.textContent = 'E-Mail-Client wird geöffnet...';
-            this.statusElement.className = 'form-status success';
+            const data = await response.json();
             
-            // Close modal after delay
-            setTimeout(() => this.closeModal(), 2000);
+            if (data.success) {
+                this.statusElement.textContent = '✓ Nachricht erfolgreich gesendet!';
+                this.statusElement.className = 'form-status success';
+                
+                // Reset form and close after delay
+                setTimeout(() => {
+                    this.closeModal();
+                }, 2000);
+            } else {
+                throw new Error(data.message || 'Fehler beim Senden');
+            }
             
         } catch (error) {
             console.error('Error:', error);

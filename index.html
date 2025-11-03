@@ -86,7 +86,11 @@
             <h2>Kontakt aufnehmen</h2>
             <p class="contact-subtitle">Ich freue mich von dir zu hören!</p>
             
-            <form id="contactForm">
+            <form id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+                <input type="hidden" name="access_key" value="61e2b782-359e-41cc-bb38-3298c0535875">
+                
+                <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+                
                 <div class="form-group">
                     <label for="contactName">Name *</label>
                     <input type="text" id="contactName" name="name" required placeholder="Dein Name">
@@ -99,13 +103,13 @@
                 
                 <div class="form-group">
                     <label for="contactTopic">Betreff</label>
-                    <select id="contactTopic" name="topic">
-                        <option value="general">Allgemeine Anfrage</option>
-                        <option value="bug">Bug-Report</option>
-                        <option value="feature">Feature-Wunsch</option>
-                        <option value="feedback">Feedback</option>
-                        <option value="support">Support</option>
-                        <option value="other">Sonstiges</option>
+                    <select id="contactTopic" name="subject">
+                        <option value="Allgemeine Anfrage">Allgemeine Anfrage</option>
+                        <option value="Bug-Report">Bug-Report</option>
+                        <option value="Feature-Wunsch">Feature-Wunsch</option>
+                        <option value="Feedback">Feedback</option>
+                        <option value="Support">Support</option>
+                        <option value="Sonstiges">Sonstiges</option>
                     </select>
                 </div>
                 
@@ -113,6 +117,8 @@
                     <label for="contactMessage">Nachricht *</label>
                     <textarea id="contactMessage" name="message" required placeholder="Deine Nachricht..." rows="6"></textarea>
                 </div>
+                
+                <p class="required-note">* erforderlich</p>
                 
                 <button type="submit" class="submit-button">Nachricht senden</button>
                 <p class="form-status" id="formStatus"></p>
