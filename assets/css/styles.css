@@ -862,7 +862,6 @@ html {
     background: rgba(28, 28, 30, 0.7);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    transform: translateZ(0);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 24px;
     padding: 40px;
@@ -1004,45 +1003,94 @@ html {
     border: 1px solid rgba(255, 59, 48, 0.3);
 }
 
-/* Mobile Responsiveness for Contact Page */
+/* Mobile Optimization for Contact Form */
+
 @media (max-width: 768px) {
     .contact-page-content {
         padding: 30px 20px;
+        background: rgba(28, 28, 30, 0.7);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 24px;
     }
-    
+
     .contact-page-header h1 {
         font-size: 2rem;
+        margin-bottom: 10px;
     }
-    
+
     .contact-page-header p {
         font-size: 1rem;
+        margin-bottom: 24px;
     }
-    
+
     .form-grid {
         grid-template-columns: 1fr;
         gap: 20px;
     }
-    
+
+    .form-group input,
+    .form-group select,
+    .form-group-full textarea {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        padding: 12px 16px;
+        font-size: 1rem;
+        color: #ffffff;
+    }
+
     .form-group-full textarea {
         min-height: 150px;
+        resize: vertical;
+        line-height: 1.6;
     }
-    
+
     .submit-button {
         width: 100%;
         padding: 14px;
+        background: var(--primary-blue);
+        color: #ffffff;
     }
 }
+
+/* Extra small devices (< 480px) */
 
 @media (max-width: 480px) {
     .contact-page-content {
         padding: 25px 16px;
+        margin: 0 16px;
     }
-    
+
     .contact-page-header h1 {
-        font-size: 1.75rem;
+        font-size: 1.5rem;
+        margin-bottom: 8px;
     }
-    
-    .form-grid {
-        gap: 16px;
+
+    .contact-page-header p {
+        font-size: 0.95rem;
+        margin-bottom: 20px;
+    }
+
+    .form-group label,
+    .form-group-full label {
+        font-size: 0.9rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group-full textarea {
+        padding: 11px 14px;
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+
+    .form-group-full textarea {
+        min-height: 140px;
+    }
+
+    .submit-button {
+        padding: 12px;
+        font-size: 0.95rem;
     }
 }
