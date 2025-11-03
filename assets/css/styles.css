@@ -62,7 +62,8 @@ body {
     font-weight: 800;
     letter-spacing: -0.03em;
     margin-bottom: 1.5rem;
-    line-height: 1.1;
+    line-height: 1.2;
+    padding: 0.2rem 0;
     
     background: linear-gradient(
         110deg,
@@ -78,7 +79,10 @@ body {
     background-clip: text;
     
     background-size: 200% auto;
-    animation: gradientFlow 10s ease-in-out infinite, fadeInUp 1s ease forwards;
+    
+    animation: 
+        fadeInUp 1s ease forwards,
+        gradientFlow 10s ease-in-out infinite;
     
     opacity: 0;
     transform: translateY(30px);
