@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap" rel="stylesheet">
-    
+
     <title>Apps madebykunai</title>
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="icon" type="image/png" href="assets/icons/favicon.png" media="(prefers-color-scheme: light)">
@@ -73,8 +73,53 @@
             <a href="impressum.html">Impressum</a>
             <span class="separator">|</span>
             <a href="datenschutz.html">Datenschutzerklärung</a>
+            <button id="contactButton" class="footer-link contact-button">Kontakt</button>
         </div>
         <p class="copyright">© 2025 madebykunai. All rights reserved.</p>
     </footer>
+
+    <!-- Contact Form Modal -->
+    <div id="contactModal" class="contact-modal">
+        <div class="contact-modal-content">
+            <button class="contact-close">&times;</button>
+            <h2>Kontakt aufnehmen</h2>
+            <p class="contact-subtitle">Ich freue mich von dir zu hören!</p>
+            
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="contactName">Name *</label>
+                    <input type="text" id="contactName" name="name" required placeholder="Dein Name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="contactEmail">E-Mail *</label>
+                    <input type="email" id="contactEmail" name="email" required placeholder="deine@email.de">
+                </div>
+                
+                <div class="form-group">
+                    <label for="contactTopic">Betreff</label>
+                    <select id="contactTopic" name="topic">
+                        <option value="general">Allgemeine Anfrage</option>
+                        <option value="bug">Bug-Report</option>
+                        <option value="feature">Feature-Wunsch</option>
+                        <option value="feedback">Feedback</option>
+                        <option value="support">Support</option>
+                        <option value="other">Sonstiges</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="contactMessage">Nachricht *</label>
+                    <textarea id="contactMessage" name="message" required placeholder="Deine Nachricht..." rows="6"></textarea>
+                </div>
+                
+                <button type="submit" class="submit-button">Nachricht senden</button>
+                <p class="form-status" id="formStatus"></p>
+            </form>
+        </div>
+    </div>
+
+    <script src="assets/js/contact.js"></script>
+
 </body>
 </html>
