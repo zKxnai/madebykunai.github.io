@@ -6,13 +6,17 @@ class ContactForm {
         this.closeButton = document.querySelector('.contact-close');
         this.form = document.getElementById('contactForm');
         this.statusElement = document.getElementById('formStatus');
+        this.background = null;
         
         this.init();
     }
     
     init() {
         // Open modal
-        this.openButton.addEventListener('click', () => this.openModal());
+        this.openButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.openModal();
+        });
         
         // Close modal
         this.closeButton.addEventListener('click', () => this.closeModal());
@@ -38,6 +42,8 @@ class ContactForm {
     openModal() {
         this.modal.classList.add('active');
         document.body.style.overflow = 'hidden';
+        
+        this.initModalBackground();
     }
     
     closeModal() {
@@ -46,6 +52,38 @@ class ContactForm {
         this.form.reset();
         this.statusElement.textContent = '';
         this.statusElement.className = 'form-status';
+        
+        this.destroyModalBackground();
+    }
+    
+    initModalBackground() {
+        // Create canvas for modal background
+        let canvas = document.getElementById('modalBackground');
+        if (!canvas) {
+            canvas = document.createElement('canvas');
+            canvas.id = 'modalBackground';
+            canvas.className = 'iconBackground';
+            this.modal.insertBefore(canvas, this.modal.firstChild);
+        }
+        
+        if (window.IconBackground) {
+            this.background = new IconBackground('modalBackground');
+        }
+    }
+    
+    destroyModalBackground() {
+        // Stop animation and clean up
+        if (this.background) {
+            if (this.background.destroy) {
+                this.background.destroy();
+            }
+            this.background = null;
+        }
+        
+        const canvas = document.getElementById('modalBackground');
+        if (canvas) {
+            canvas.remove();
+        }
     }
     
     async handleSubmit(e) {
@@ -66,7 +104,7 @@ class ContactForm {
             // Format email body
             const emailBody = `Name: ${formData.name}%0D%0AE-Mail: ${formData.email}%0D%0ABetreff: ${formData.topic}%0D%0A%0D%0ANachricht:%0D%0A${encodeURIComponent(formData.message)}`;
             
-            // Open mailto link (simple solution)
+            // Open mailto link
             window.location.href = `mailto:feedback@madebykunai.dev?subject=Kontaktformular: ${formData.topic}&body=${emailBody}`;
             
             // Show success message

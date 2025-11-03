@@ -839,20 +839,6 @@ html {
 }
 
 /* Contact Form Styles */
-
-   .contact-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    font-family: inherit;
-    transition: color 0.3s ease;
-}
-
-.contact-button:hover {
-    color: var(--primary-blue);
-}
-
 /* Contact Modal */
 .contact-modal {
     display: none;
@@ -875,6 +861,16 @@ html {
     opacity: 1;
 }
 
+.contact-modal #modalBackground {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+}
+
 .contact-modal-content {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
@@ -885,6 +881,7 @@ html {
     max-height: 90vh;
     overflow-y: auto;
     position: relative;
+    z-index: 1;
     transform: scale(0.9);
     opacity: 0;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
