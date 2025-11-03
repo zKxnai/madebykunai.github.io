@@ -6,32 +6,28 @@ class ContactForm {
         this.closeButton = document.querySelector('.contact-close');
         this.form = document.getElementById('contactForm');
         this.statusElement = document.getElementById('formStatus');
+        this.submitButton = this.form.querySelector('.submit-button');
         this.background = null;
         
         this.init();
     }
     
     init() {
-        // Open modal
         this.openButton.addEventListener('click', (e) => {
             e.preventDefault();
             this.openModal();
         });
         
-        // Close modal
         this.closeButton.addEventListener('click', () => this.closeModal());
         
-        // Close on outside click
         window.addEventListener('click', (e) => {
             if (e.target === this.modal) {
                 this.closeModal();
             }
         });
         
-        // Handle form submission
         this.form.addEventListener('submit', (e) => this.handleSubmit(e));
         
-        // Close on ESC key
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && this.modal.classList.contains('active')) {
                 this.closeModal();
@@ -42,8 +38,7 @@ class ContactForm {
     openModal() {
         this.modal.classList.add('active');
         document.body.style.overflow = 'hidden';
-        
-        setTimeout(() => this.initModalBackground(), 100);
+        setTimeout(() => this.initModalBackground(), 50);
     }
     
     closeModal() {
@@ -52,26 +47,19 @@ class ContactForm {
         this.form.reset();
         this.statusElement.textContent = '';
         this.statusElement.className = 'form-status';
-        
         this.destroyModalBackground();
     }
     
     initModalBackground() {
-        // Check if IconBackground exists
-        if (!window.IconBackground) {
-            console.warn('IconBackground not found');
-            return;
-        }
+        if (!window.IconBackground) return;
         
-        // Create canvas if it doesn't exist
-        let canvas = this.modal.querySelector('canvas');
-        if (!canvas) {
-            canvas = document.createElement('canvas');
-            canvas.id = 'modalBackground';
-            this.modal.insertBefore(canvas, this.modal.firstChild);
-        }
+        const existingCanvas = this.modal.querySelector('canvas');
+        if (existingCanvas) existingCanvas.remove();
         
-        // Initialize background
+        const canvas = document.createElement('canvas');
+        canvas.id = 'modalBackground';
+        this.modal.insertBefore(canvas, this.modal.firstChild);
+        
         try {
             this.background = new IconBackground('modalBackground');
         } catch (error) {
@@ -81,7 +69,6 @@ class ContactForm {
     
     destroyModalBackground() {
         if (this.background) {
-            // Check for various cleanup methods
             if (typeof this.background.destroy === 'function') {
                 this.background.destroy();
             } else if (typeof this.background.stop === 'function') {
@@ -90,19 +77,18 @@ class ContactForm {
             this.background = null;
         }
         
-        // Remove canvas
         const canvas = this.modal.querySelector('canvas');
-        if (canvas) {
-            canvas.remove();
-        }
+        if (canvas) canvas.remove();
     }
     
     async handleSubmit(e) {
         e.preventDefault();
         
-        // Show loading state
+        // ✅ Web3Forms script handles captcha validation automatically!
+        
         this.statusElement.textContent = 'Wird gesendet...';
         this.statusElement.className = 'form-status loading';
+        this.submitButton.disabled = true;
         
         try {
             const formData = new FormData(this.form);
@@ -118,7 +104,6 @@ class ContactForm {
                 this.statusElement.textContent = '✓ Nachricht erfolgreich gesendet!';
                 this.statusElement.className = 'form-status success';
                 
-                // Reset form and close after delay
                 setTimeout(() => {
                     this.closeModal();
                 }, 2000);
@@ -130,11 +115,13 @@ class ContactForm {
             console.error('Error:', error);
             this.statusElement.textContent = 'Fehler beim Senden. Bitte versuche es erneut.';
             this.statusElement.className = 'form-status error';
+        } finally {
+            this.submitButton.disabled = false;
         }
     }
 }
 
-// Initialize when DOM is ready
+// Initialize
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => new ContactForm());
 } else {

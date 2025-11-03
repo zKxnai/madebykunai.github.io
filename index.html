@@ -87,10 +87,13 @@
             <p class="contact-subtitle">Ich freue mich von dir zu hören!</p>
             
             <form id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+                <!-- Your Web3Forms Access Key -->
                 <input type="hidden" name="access_key" value="61e2b782-359e-41cc-bb38-3298c0535875">
                 
+                <!-- Honeypot -->
                 <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
                 
+                <!-- Form fields -->
                 <div class="form-group">
                     <label for="contactName">Name *</label>
                     <input type="text" id="contactName" name="name" required placeholder="Dein Name">
@@ -118,6 +121,8 @@
                     <textarea id="contactMessage" name="message" required placeholder="Deine Nachricht..." rows="6"></textarea>
                 </div>
                 
+                <div class="h-captcha" data-captcha="true"></div>
+                
                 <p class="required-note">* erforderlich</p>
                 
                 <button type="submit" class="submit-button">Nachricht senden</button>
@@ -126,7 +131,8 @@
         </div>
     </div>
 
+    <script src="https://web3forms.com/client/script.js" async defer></script>
     <script src="assets/js/contact.js"></script>
-
+    
 </body>
 </html>

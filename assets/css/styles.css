@@ -861,7 +861,6 @@ html {
     opacity: 1;
 }
 
-/* ✅ Modal background canvas - FIXED */
 .contact-modal canvas {
     position: absolute !important;
     top: 0 !important;
@@ -873,19 +872,26 @@ html {
 }
 
 .contact-modal-content {
-    background: rgba(26, 26, 46, 0.85);
+    background: rgba(26, 26, 46, 0.95);
+    backdrop-filter: blur(20px);
     border: 1px solid var(--card-border);
     border-radius: 20px;
     padding: 40px;
     max-width: 600px;
     width: 90%;
-    max-height: 90vh;
-    overflow-y: auto;
+    max-height: 85vh;
     position: relative;
     z-index: 10;
     transform: scale(0.9);
     opacity: 0;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.contact-modal-content::-webkit-scrollbar {
+    display: none;
 }
 
 .contact-modal.active .contact-modal-content {
@@ -893,7 +899,6 @@ html {
     opacity: 1;
 }
 
-/* ✅ Close button - CENTERED */
 .contact-close {
     position: absolute;
     top: 20px;
@@ -901,7 +906,7 @@ html {
     background: rgba(255, 255, 255, 0.1);
     border: none;
     color: #ffffff;
-    font-size: 28px;
+    font-size: 24px;
     cursor: pointer;
     width: 40px;
     height: 40px;
@@ -910,8 +915,9 @@ html {
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
-    line-height: 0;  /* ✅ FIX: Centers the X */
-    padding: 0;      /* ✅ FIX: Removes default padding */
+    padding: 0;
+    line-height: 1;
+    font-weight: 300;
 }
 
 .contact-close:hover {
@@ -976,12 +982,20 @@ html {
     cursor: pointer;
 }
 
-/* ✅ Required fields note */
+/* hCaptcha styling */
+.h-captcha {
+    margin: 1.5rem 0;
+    display: flex;
+    justify-content: center;
+}
+
+/* Required fields note */
 .required-note {
     text-align: right;
     color: rgba(255, 255, 255, 0.5);
     font-size: 0.85rem;
     margin-bottom: 1rem;
+    margin-top: -0.5rem;
     font-style: italic;
 }
 
@@ -1007,6 +1021,12 @@ html {
 
 .submit-button:active {
     transform: translateY(0);
+}
+
+.submit-button:disabled {
+    background: rgba(10, 132, 255, 0.5);
+    cursor: not-allowed;
+    transform: none;
 }
 
 .form-status {
@@ -1044,6 +1064,7 @@ html {
     .contact-modal-content {
         padding: 30px 20px;
         width: 95%;
+        max-height: 90vh;
     }
     
     .contact-modal-content h2 {
@@ -1053,6 +1074,11 @@ html {
     .form-group input,
     .form-group select,
     .form-group textarea {
-        font-size: 16px;
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+    
+    .h-captcha {
+        transform: scale(0.9);
+        transform-origin: center;
     }
 }
