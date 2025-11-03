@@ -810,3 +810,40 @@ html {
         line-height: 1.65;
     }
 }
+
+h1 {
+    font-family: 'Onest', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+    font-size: clamp(3rem, 10vw, 5.5rem);
+    font-weight: 800;
+    margin: 0 0 1rem 0;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    
+    /* Gradient magic */
+    background: linear-gradient(
+        110deg,
+        #7C3AED 0%,      /* Purple */
+        #5B21B6 25%,     /* Deep purple */
+        #1E3A8A 45%,     /* Navy blue */
+        #0284C7 65%,     /* Cyan */
+        #60A5FA 80%,     /* Light blue */
+        #94A3B8 100%     /* Cool gray */
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    
+    /* Optional: Animated gradient */
+    background-size: 200% auto;
+    animation: gradientFlow 10s ease-in-out infinite;
+}
+
+/* Add this animation at the end of your CSS file */
+@keyframes gradientFlow {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
