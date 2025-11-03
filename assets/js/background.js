@@ -6,7 +6,6 @@ class IconBackground {
         this.icons = [];
         this.mouseX = 0;
         this.mouseY = 0;
-        
         this.init();
     }
     
@@ -14,8 +13,8 @@ class IconBackground {
         // Setup canvas
         this.canvas.id = 'iconBackground';
         document.body.insertBefore(this.canvas, document.body.firstChild);
-        
         this.resize();
+
         window.addEventListener('resize', () => this.resize());
         
         // Track mouse for parallax
@@ -33,10 +32,16 @@ class IconBackground {
     
     resize() {
         this.canvas.width = window.innerWidth;
-        this.canvas.height = document.body.scrollHeight;
+        this.canvas.height = window.innerHeight;
+
+        // Re-create icons on resize to maintain proper distribution
+        if (this.icons.length > 0) {
+            this.createIcons();
+        }
     }
     
     createIcons() {
+        this.icons = [];
         const iconCount = Math.floor((window.innerWidth * window.innerHeight) / 15000);
         const colors = [
             // Cashly colors
@@ -68,8 +73,7 @@ class IconBackground {
         // Draw rounded square (app icon)
         const radius = icon.size * 0.22; // iOS-style corner radius
         this.ctx.fillStyle = icon.color;
-        this.ctx.globalAlpha = 0.15;
-        
+        this.ctx.globalAlpha = 0.10;
         this.roundRect(-icon.size/2, -icon.size/2, icon.size, icon.size, radius);
         this.ctx.fill();
         
@@ -109,7 +113,7 @@ class IconBackground {
             icon.rotation += icon.rotationSpeed;
             
             // Reset if off screen
-            if (icon.y - scrollY * parallaxStrength > this.canvas.height + icon.size) {
+            if (icon.y > this.canvas.height + icon.size) {
                 icon.y = -icon.size;
                 icon.x = Math.random() * this.canvas.width;
             }
@@ -118,7 +122,7 @@ class IconBackground {
             const drawIcon = {
                 ...icon,
                 x: icon.x + dx,
-                y: icon.y - scrollY * parallaxStrength + dy
+                y: icon.y + dy
             };
             
             this.drawIcon(drawIcon);
