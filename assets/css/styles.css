@@ -645,7 +645,8 @@ html {
 .legal-page {
     max-width: 900px;
     margin: 0 auto;
-    padding: 60px 30px 60px;
+    margin-bottom: 0;
+    padding: 60px 30px 120px;
     position: relative;
     z-index: 1;
     color: #ffffff;
