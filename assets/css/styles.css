@@ -610,6 +610,8 @@ html {
     text-align: center;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     margin-top: 80px;
+    transform: translateZ(0);
+    will-change: transform;
 }
 
 .footer-links {
@@ -646,7 +648,7 @@ html {
     max-width: 900px;
     margin: 0 auto;
     margin-bottom: 0;
-    padding: 60px 30px 120px;
+    padding: 60px 30px 40px;
     position: relative;
     z-index: 1;
     color: #ffffff;
