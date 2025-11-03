@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontakt - madebykunai</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/icons/favicon.png" media="(prefers-color-scheme: light)">
+    <link rel="icon" type="image/png" href="assets/icons/favicon-dark.png" media="(prefers-color-scheme: dark)">
+    
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon-180.png">
+    
+    <!-- Link to main CSS -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+    
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <!-- Animated Background Canvas -->
+    <canvas id="contactBackground"></canvas>
+    
+    <!-- Main Container -->
+    <div class="contact-page-container">
+        <div class="contact-page-content">
+            <!-- Header -->
+            <div class="contact-page-header">
+                <h1>Kontakt aufnehmen</h1>
+                <p>Ich freue mich von dir zu hören!</p>
+            </div>
+            
+            <!-- Contact Form -->
+            <form id="contactForm" action="https://api.web3forms.com/submit" method="POST" class="contact-page-form">
+                <!-- Web3Forms Access Key -->
+                <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY">
+                
+                <!-- Honeypot -->
+                <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+                
+                <!-- Two Column Layout on Desktop -->
+                <div class="form-grid">
+                    <!-- Left Column -->
+                    <div class="form-left">
+                        <div class="form-group">
+                            <label for="contactName">Name *</label>
+                            <input type="text" id="contactName" name="name" required placeholder="Dein Name">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="contactEmail">E-Mail *</label>
+                            <input type="email" id="contactEmail" name="email" required placeholder="deine@email.de">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="contactTopic">Betreff</label>
+                            <select id="contactTopic" name="subject">
+                                <option value="Allgemeine Anfrage">Allgemeine Anfrage</option>
+                                <option value="Bug-Report">Bug-Report</option>
+                                <option value="Feature-Wunsch">Feature-Wunsch</option>
+                                <option value="Feedback">Feedback</option>
+                                <option value="Support">Support</option>
+                                <option value="Sonstiges">Sonstiges</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Right Column -->
+                    <div class="form-right">
+                        <div class="form-group form-group-full">
+                            <label for="contactMessage">Nachricht *</label>
+                            <textarea id="contactMessage" name="message" required placeholder="Deine Nachricht..." rows="10"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Captcha & Submit (Centered Below) -->
+                <div class="form-bottom">
+                    <div class="h-captcha" data-captcha="true"></div>
+                    <p class="required-note">* erforderlich</p>
+                    <button type="submit" class="submit-button">Nachricht senden</button>
+                    <p class="form-status" id="formStatus"></p>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Footer Links -->
+        <footer class="contact-page-footer">
+            <a href="index.html">← Zurück zur Startseite</a>
+            <span>|</span>
+            <a href="impressum.html">Impressum</a>
+            <span>|</span>
+            <a href="datenschutz.html">Datenschutzerklärung</a>
+        </footer>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="assets/js/background.js"></script>
+    <script src="https://web3forms.com/client/script.js" async defer></script>
+    <script src="assets/js/kontakt.js"></script>
+</body>
+</html>
