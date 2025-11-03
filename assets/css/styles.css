@@ -861,6 +861,8 @@ html {
     margin: 0 auto;
     background: rgba(28, 28, 30, 0.7);
     backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    transform: translateZ(0);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 24px;
     padding: 40px;
