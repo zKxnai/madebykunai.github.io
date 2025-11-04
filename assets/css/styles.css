@@ -834,19 +834,25 @@ html {
     0% {
       background-position: 0% 50%;
     }
-    25% {
-      background-position: 50% 50%;
+    16.67% {
+      background-position: 16.67% 50%;
+    }
+    33.33% {
+      background-position: 33.33% 50%;
     }
     50% {
-      background-position: 100% 50%;
-    }
-    75% {
       background-position: 50% 50%;
     }
-    100% {
-      background-position: 50% 0%;
+    66.67% {
+      background-position: 66.67% 50%;
     }
-  }
+    83.33% {
+      background-position: 83.33% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+}
 
 /* Background Canvas */
 #contactBackground {
@@ -1013,7 +1019,6 @@ html {
 }
 
 /* Mobile Optimization for Contact Form */
-
 @media (max-width: 768px) {
     .contact-page-content {
         padding: 30px 20px;
@@ -1065,7 +1070,6 @@ html {
 }
 
 /* Extra small devices (< 480px) */
-
 @media (max-width: 480px) {
     .contact-page-content {
         padding: 25px 16px;
