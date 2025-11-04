@@ -70,8 +70,7 @@ class GradientBackground {
       this.time += 0.01;
   
       // Clear canvas
-      this.ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-      this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   
       // Enable blending for smooth gradients
       this.ctx.globalCompositeOperation = 'screen';
