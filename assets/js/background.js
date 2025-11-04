@@ -7,7 +7,7 @@ class GradientBackground {
       this.ctx = this.canvas.getContext('2d');
       this.container.appendChild(this.canvas);
       
-      // Your color palette from tiles
+      // Your color palette
       this.colors = [
         '#3aed5e', // Green
         '#21b62d', // Dark green
@@ -17,14 +17,16 @@ class GradientBackground {
         '#96b894'  // Light gray-green
       ];
       
-      // Animated gradient positions
+      // More gradients, distributed across the entire viewport
       this.gradients = [
-        { x: -0.3, y: -0.3, color: this.colors[0] },
-        { x: 0.5, y: -0.2, color: this.colors[2] },
-        { x: 1.2, y: 0.8, color: this.colors[3] },
-        { x: 0, y: 1.5, color: this.colors[4] },
-        { x: -0.5, y: 0.5, color: this.colors[1] },
-        { x: 0.8, y: -0.8, color: this.colors[5] }
+        { x: 0.15, y: 0.15, color: this.colors[0] },    // Green - top left
+        { x: 0.85, y: 0.1, color: this.colors[2] },     // Purple - top right
+        { x: 0.9, y: 0.8, color: this.colors[3] },      // Pink - bottom right
+        { x: 0.1, y: 0.85, color: this.colors[4] },     // Cyan - bottom left
+        { x: 0.5, y: 0.5, color: this.colors[1] },      // Dark green - center
+        { x: 0.5, y: 0.15, color: this.colors[5] },     // Light gray - top center
+        { x: 0.15, y: 0.5, color: this.colors[3] },     // Pink - left center
+        { x: 0.85, y: 0.5, color: this.colors[4] }      // Cyan - right center
       ];
       
       this.mouse = { x: 0.5, y: 0.5 };
@@ -45,7 +47,6 @@ class GradientBackground {
     }
     
     onMouseMove(e) {
-      // Use viewport dimensions for accurate position tracking
       this.mouse.x = e.clientX / window.innerWidth;
       this.mouse.y = e.clientY / window.innerHeight;
     }
@@ -68,24 +69,29 @@ class GradientBackground {
     animate() {
       this.time += 0.01;
       
-      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      // Fill with slightly darkened background (instead of pure black)
+      this.ctx.fillStyle = 'rgba(5, 3, 10, 1)'; // Very dark purple-gray
+      this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+      
+      // Use additive/screen blending for overlapping gradients
       this.ctx.globalCompositeOperation = 'screen';
-      this.ctx.filter = 'blur(80px)';
+      this.ctx.filter = 'blur(100px)'; // More blur for softer blending
       
       this.gradients.forEach((grad, index) => {
-        // Parallax - scale with canvas dimensions for proper movement
-        const parallaxX = (this.mouse.x - 0.5) * this.canvas.width * 0.4;
-        const parallaxY = (this.mouse.y - 0.5) * this.canvas.height * 0.4;
+        // Parallax - cursor pulls gradients toward it
+        const parallaxX = (this.mouse.x - 0.5) * this.canvas.width * 0.25;
+        const parallaxY = (this.mouse.y - 0.5) * this.canvas.height * 0.25;
         
         // Gentle floating animation
-        const floatX = Math.sin(this.time + index) * 50;
-        const floatY = Math.cos(this.time * 0.7 + index) * 50;
+        const floatX = Math.sin(this.time + index * 0.5) * 40;
+        const floatY = Math.cos(this.time * 0.7 + index * 0.5) * 40;
         
+        // Position blobs throughout viewport
         const x = (grad.x * this.canvas.width) + parallaxX + floatX;
         const y = (grad.y * this.canvas.height) + parallaxY + floatY;
-        const size = 300 + Math.sin(this.time * 0.5 + index) * 100;
+        const size = 350 + Math.sin(this.time * 0.5 + index) * 100;
         
-        this.drawBlob(x, y, size, grad.color, 0.6);
+        this.drawBlob(x, y, size, grad.color, 0.4);
       });
       
       this.ctx.filter = 'none';
