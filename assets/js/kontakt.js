@@ -1,14 +1,12 @@
-// Kontakt Page Handler
 class KontaktPage {
     constructor() {
         this.form = document.getElementById('contactForm');
         this.statusElement = document.getElementById('formStatus');
         this.submitButton = this.form.querySelector('.submit-button');
         this.background = null;
-        
         this.init();
     }
-    
+
     init() {
         // Initialize animated background
         this.initBackground();
@@ -19,28 +17,29 @@ class KontaktPage {
         // Smooth scroll to top on load
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-    
+
     initBackground() {
         if (!window.IconBackground) {
             console.warn('IconBackground not found');
             return;
         }
-        
+
         try {
             this.background = new IconBackground('contactBackground');
         } catch (error) {
             console.error('Failed to initialize background:', error);
         }
     }
-    
+
     async handleSubmit(e) {
         e.preventDefault();
-        
+
         // Show loading state
+        this.statusElement.style.display = 'block';
         this.statusElement.textContent = 'Wird gesendet...';
         this.statusElement.className = 'form-status loading';
         this.submitButton.disabled = true;
-        
+
         try {
             const formData = new FormData(this.form);
             
@@ -48,27 +47,23 @@ class KontaktPage {
                 method: 'POST',
                 body: formData
             });
-            
-            const data = await response.json();
-            
-            if (data.success) {
-                this.statusElement.textContent = '✓ Nachricht erfolgreich gesendet!';
+
+            if (response.ok) {
+                this.statusElement.textContent = 'Nachricht erfolgreich gesendet! ✓';
                 this.statusElement.className = 'form-status success';
+                this.form.reset();
                 
-                // Reset form after delay
+                // Hide success message after 5 seconds
                 setTimeout(() => {
-                    this.form.reset();
-                    this.statusElement.textContent = '';
-                    this.statusElement.className = 'form-status';
-                }, 3000);
+                    this.statusElement.style.display = 'none';
+                }, 5000);
             } else {
-                throw new Error(data.message || 'Fehler beim Senden');
+                throw new Error('Form submission failed');
             }
-            
         } catch (error) {
-            console.error('Error:', error);
             this.statusElement.textContent = 'Fehler beim Senden. Bitte versuche es erneut.';
             this.statusElement.className = 'form-status error';
+            console.error('Form submission error:', error);
         } finally {
             this.submitButton.disabled = false;
         }
@@ -76,8 +71,6 @@ class KontaktPage {
 }
 
 // Initialize when DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => new KontaktPage());
-} else {
+document.addEventListener('DOMContentLoaded', () => {
     new KontaktPage();
-}
+});
