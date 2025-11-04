@@ -1,138 +1,112 @@
-// Animated Icon Background
-class IconBackground {
-    constructor() {
-        this.canvas = document.createElement('canvas');
-        this.ctx = this.canvas.getContext('2d');
-        this.icons = [];
-        this.mouseX = 0;
-        this.mouseY = 0;
-        this.init();
+class GradientBackground {
+    constructor(containerId) {
+      this.container = document.getElementById(containerId);
+      if (!this.container) return;
+  
+      this.canvas = document.createElement('canvas');
+      this.ctx = this.canvas.getContext('2d');
+      this.container.appendChild(this.canvas);
+  
+      // Your color palette from tiles
+      this.colors = [
+        '#3aed5e', // Green
+        '#21b62d', // Dark green
+        '#811e8a', // Purple
+        '#c7028f', // Pink
+        '#60ebfa', // Cyan
+        '#96b894'  // Light gray-green
+      ];
+  
+      // Animated gradient positions
+      this.gradients = [
+        { x: -0.3, y: -0.3, color: this.colors[0], targetX: -0.3, targetY: -0.3 },
+        { x: 0.5, y: -0.2, color: this.colors[2], targetX: 0.5, targetY: -0.2 },
+        { x: 1.2, y: 0.8, color: this.colors[3], targetX: 1.2, targetY: 0.8 },
+        { x: 0, y: 1.5, color: this.colors[4], targetX: 0, targetY: 1.5 },
+        { x: -0.5, y: 0.5, color: this.colors[1], targetX: -0.5, targetY: 0.5 },
+        { x: 0.8, y: -0.8, color: this.colors[5], targetX: 0.8, targetY: -0.8 }
+      ];
+  
+      this.mouse = { x: 0.5, y: 0.5 };
+      this.time = 0;
+  
+      this.init();
     }
-    
+  
     init() {
-        // Setup canvas
-        this.canvas.id = 'iconBackground';
-        document.body.insertBefore(this.canvas, document.body.firstChild);
-        this.resize();
-
-        window.addEventListener('resize', () => this.resize());
-        
-        // Track mouse for parallax
-        document.addEventListener('mousemove', (e) => {
-            this.mouseX = e.clientX;
-            this.mouseY = e.clientY;
-        });
-        
-        // Create icons
-        this.createIcons();
-        
-        // Start animation
-        this.animate();
+      this.resize();
+      window.addEventListener('resize', () => this.resize());
+      document.addEventListener('mousemove', (e) => this.onMouseMove(e));
+      this.animate();
     }
-    
+  
     resize() {
-        this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight;
-
-        // Re-create icons on resize to maintain proper distribution
-        if (this.icons.length > 0) {
-            this.createIcons();
-        }
+      this.canvas.width = this.container.clientWidth;
+      this.canvas.height = this.container.clientHeight;
     }
-    
-    createIcons() {
-        this.icons = [];
-        const iconCount = Math.floor((window.innerWidth * window.innerHeight) / 15000);
-        const colors = [
-            // Cashly colors
-            '#00D851', '#00A751',
-            // readme colors  
-            '#C600FF', '#CD1288',
-            // Kompoze colors
-            '#63E3FA', '#00D851'
-        ];
-        
-        for (let i = 0; i < iconCount; i++) {
-            this.icons.push({
-                x: Math.random() * this.canvas.width,
-                y: Math.random() * this.canvas.height,
-                size: 40 + Math.random() * 40,
-                rotation: Math.random() * 360,
-                color: colors[Math.floor(Math.random() * colors.length)],
-                speed: 0.1 + Math.random() * 0.3,
-                rotationSpeed: (Math.random() - 0.5) * 0.5
-            });
-        }
+  
+    onMouseMove(e) {
+      this.mouse.x = e.clientX / window.innerWidth;
+      this.mouse.y = e.clientY / window.innerHeight;
     }
-    
-    drawIcon(icon) {
-        this.ctx.save();
-        this.ctx.translate(icon.x, icon.y);
-        this.ctx.rotate((icon.rotation * Math.PI) / 180);
-        
-        // Draw rounded square (app icon)
-        const radius = icon.size * 0.22; // iOS-style corner radius
-        this.ctx.fillStyle = icon.color;
-        this.ctx.globalAlpha = 0.10;
-        this.roundRect(-icon.size/2, -icon.size/2, icon.size, icon.size, radius);
-        this.ctx.fill();
-        
-        this.ctx.restore();
+  
+    drawBlob(x, y, size, color, opacity) {
+      const gradient = this.ctx.createRadialGradient(x, y, 0, x, y, size);
+      gradient.addColorStop(0, this.hexToRgba(color, opacity));
+      gradient.addColorStop(1, this.hexToRgba(color, 0));
+      
+      this.ctx.fillStyle = gradient;
+      this.ctx.fillRect(x - size, y - size, size * 2, size * 2);
     }
-    
-    roundRect(x, y, width, height, radius) {
-        this.ctx.beginPath();
-        this.ctx.moveTo(x + radius, y);
-        this.ctx.lineTo(x + width - radius, y);
-        this.ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
-        this.ctx.lineTo(x + width, y + height - radius);
-        this.ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
-        this.ctx.lineTo(x + radius, y + height);
-        this.ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
-        this.ctx.lineTo(x, y + radius);
-        this.ctx.quadraticCurveTo(x, y, x + radius, y);
-        this.ctx.closePath();
+  
+    hexToRgba(hex, alpha) {
+      const r = parseInt(hex.slice(1, 3), 16);
+      const g = parseInt(hex.slice(3, 5), 16);
+      const b = parseInt(hex.slice(5, 7), 16);
+      return `rgba(${r}, ${g}, ${b}, ${alpha})`;
     }
-    
+  
     animate() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        
-        const scrollY = window.scrollY;
-        const parallaxStrength = 0.05;
-        const mouseParallax = 0.02;
-        
-        this.icons.forEach(icon => {
-            // Scroll parallax
-            icon.y += icon.speed;
-            
-            // Apply mouse parallax
-            const dx = (this.mouseX - window.innerWidth / 2) * mouseParallax;
-            const dy = (this.mouseY - window.innerHeight / 2) * mouseParallax;
-            
-            // Rotate
-            icon.rotation += icon.rotationSpeed;
-            
-            // Reset if off screen
-            if (icon.y > this.canvas.height + icon.size) {
-                icon.y = -icon.size;
-                icon.x = Math.random() * this.canvas.width;
-            }
-            
-            // Draw with parallax offset
-            const drawIcon = {
-                ...icon,
-                x: icon.x + dx,
-                y: icon.y + dy
-            };
-            
-            this.drawIcon(drawIcon);
-        });
-        
-        requestAnimationFrame(() => this.animate());
+      this.time += 0.01;
+  
+      // Clear canvas
+      this.ctx.fillStyle = '#000000';
+      this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+  
+      // Enable blending for smooth gradients
+      this.ctx.globalCompositeOperation = 'screen';
+      this.ctx.filter = 'blur(80px)';
+  
+      // Update and draw gradients with parallax
+      this.gradients.forEach((grad, index) => {
+        // Parallax offset based on mouse position
+        const parallaxX = (this.mouse.x - 0.5) * 100;
+        const parallaxY = (this.mouse.y - 0.5) * 100;
+  
+        // Gentle floating animation
+        const floatX = Math.sin(this.time + index) * 50;
+        const floatY = Math.cos(this.time * 0.7 + index) * 50;
+  
+        const x = (grad.x * this.canvas.width) + parallaxX + floatX;
+        const y = (grad.y * this.canvas.height) + parallaxY + floatY;
+        const size = 300 + Math.sin(this.time * 0.5 + index) * 100;
+  
+        this.drawBlob(x, y, size, grad.color, 0.6);
+      });
+  
+      // Reset filter and composite
+      this.ctx.filter = 'none';
+      this.ctx.globalCompositeOperation = 'source-over';
+  
+      requestAnimationFrame(() => this.animate());
     }
-}
-
-// Initialize on load
-window.addEventListener('DOMContentLoaded', () => {
-    new IconBackground();
-});
+  }
+  
+  // Initialize when DOM is ready
+  document.addEventListener('DOMContentLoaded', () => {
+    const bgContainer = document.getElementById('background');
+    if (bgContainer) {
+      new GradientBackground('background');
+    }
+  });
+  
