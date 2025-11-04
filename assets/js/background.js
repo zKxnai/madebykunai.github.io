@@ -7,7 +7,6 @@ class GradientBackground {
     this.ctx = this.canvas.getContext('2d');
     this.container.appendChild(this.canvas);
     
-    // Your color palette
     this.colors = [
       '#3aed5e', // Green
       '#21b62d', // Dark green
@@ -17,16 +16,15 @@ class GradientBackground {
       '#96b894'  // Light gray-green
     ];
     
-    // Gradients with fixed oval shapes (no transform scaling needed)
     this.gradients = [
-      { x: 0.15, y: 0.15, rx: 280, ry: 220, color: this.colors[0] },
-      { x: 0.85, y: 0.1, rx: 260, ry: 240, color: this.colors[2] },
-      { x: 0.9, y: 0.8, rx: 300, ry: 220, color: this.colors[3] },
-      { x: 0.1, y: 0.85, rx: 280, ry: 240, color: this.colors[4] },
-      { x: 0.5, y: 0.5, rx: 250, ry: 230, color: this.colors[1] },
-      { x: 0.5, y: 0.15, rx: 290, ry: 225, color: this.colors[5] },
-      { x: 0.15, y: 0.5, rx: 260, ry: 245, color: this.colors[3] },
-      { x: 0.85, y: 0.5, rx: 280, ry: 230, color: this.colors[4] }
+      { x: 0.15, y: 0.15, rx: 380, ry: 280, color: this.colors[0] },
+      { x: 0.85, y: 0.1, rx: 360, ry: 300, color: this.colors[2] },
+      { x: 0.9, y: 0.8, rx: 400, ry: 280, color: this.colors[3] },
+      { x: 0.1, y: 0.85, rx: 380, ry: 300, color: this.colors[4] },
+      { x: 0.5, y: 0.5, rx: 350, ry: 300, color: this.colors[1] },
+      { x: 0.5, y: 0.15, rx: 390, ry: 285, color: this.colors[5] },
+      { x: 0.15, y: 0.5, rx: 360, ry: 305, color: this.colors[3] },
+      { x: 0.85, y: 0.5, rx: 380, ry: 290, color: this.colors[4] }
     ];
     
     this.mouse = { x: 0.5, y: 0.5 };
@@ -80,7 +78,7 @@ class GradientBackground {
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     
     this.ctx.globalCompositeOperation = 'screen';
-    this.ctx.filter = 'blur(60px)'; // Reduced from 100px
+    this.ctx.filter = 'blur(60px)';
     
     this.gradients.forEach((grad, index) => {
       const parallaxX = (this.mouse.x - 0.5) * this.canvas.width * 0.05;
@@ -92,7 +90,7 @@ class GradientBackground {
       const x = (grad.x * this.canvas.width) + parallaxX + floatX;
       const y = (grad.y * this.canvas.height) + parallaxY + floatY;
       
-      const sizeVariation = Math.sin(this.time * 0.3 + index) * 20;
+      const sizeVariation = Math.sin(this.time * 0.3 + index) * 25;
       const radiusY = grad.ry + sizeVariation;
       const radiusX = grad.rx + sizeVariation;
       
