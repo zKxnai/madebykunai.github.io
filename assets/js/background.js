@@ -1,4 +1,4 @@
-class GradientBackground {
+class DynamicBackground {
   constructor(containerId) {
     this.container = document.getElementById(containerId);
     if (!this.container) return;
@@ -7,28 +7,11 @@ class GradientBackground {
     this.ctx = this.canvas.getContext('2d');
     this.container.appendChild(this.canvas);
     
-    this.colors = [
-      '#3aed5e', // Green
-      '#21b62d', // Dark green
-      '#811e8a', // Purple
-      '#c7028f', // Pink
-      '#60ebfa', // Cyan
-      '#96b894'  // Light gray-green
-    ];
-    
-    this.gradients = [
-      { x: 0.15, y: 0.15, rx: 380, ry: 280, color: this.colors[0] },
-      { x: 0.85, y: 0.1, rx: 360, ry: 300, color: this.colors[2] },
-      { x: 0.9, y: 0.8, rx: 400, ry: 280, color: this.colors[3] },
-      { x: 0.1, y: 0.85, rx: 380, ry: 300, color: this.colors[4] },
-      { x: 0.5, y: 0.5, rx: 350, ry: 300, color: this.colors[1] },
-      { x: 0.5, y: 0.15, rx: 390, ry: 285, color: this.colors[5] },
-      { x: 0.15, y: 0.5, rx: 360, ry: 305, color: this.colors[3] },
-      { x: 0.85, y: 0.5, rx: 380, ry: 290, color: this.colors[4] }
-    ];
-    
-    this.mouse = { x: 0.5, y: 0.5 };
+    // Ultra-refined gradient with subtle movement
+    this.particles = [];
+    this.mouse = { x: 0, y: 0 };
     this.time = 0;
+    
     this.init();
   }
   
@@ -42,6 +25,29 @@ class GradientBackground {
   resize() {
     this.canvas.width = this.container.clientWidth;
     this.canvas.height = this.container.clientHeight;
+    
+    if (this.particles.length === 0) {
+      this.particles = this.createParticles();
+    }
+  }
+  
+  createParticles() {
+    const particles = [];
+    const colors = ['#3aed5e', '#60ebfa', '#c7028f', '#21b62d', '#811e8a'];
+    
+    for (let i = 0; i < 5; i++) {
+      particles.push({
+        x: Math.random() * this.canvas.width,
+        y: Math.random() * this.canvas.height,
+        size: 150 + Math.random() * 250,
+        color: colors[i],
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.5,
+        angle: Math.random() * Math.PI * 2
+      });
+    }
+    
+    return particles;
   }
   
   onMouseMove(e) {
@@ -49,19 +55,53 @@ class GradientBackground {
     this.mouse.y = e.clientY / window.innerHeight;
   }
   
-  drawEllipse(x, y, radiusX, radiusY, color, opacity) {
-    const gradient = this.ctx.createRadialGradient(x, y, 0, x, y, Math.max(radiusX, radiusY));
-    gradient.addColorStop(0, this.hexToRgba(color, opacity));
-    gradient.addColorStop(1, this.hexToRgba(color, 0));
+  animate() {
+    this.time += 0.01;
     
-    this.ctx.save();
-    this.ctx.translate(x, y);
-    this.ctx.scale(radiusX / radiusY, 1);
-    this.ctx.fillStyle = gradient;
-    this.ctx.beginPath();
-    this.ctx.arc(0, 0, radiusY, 0, Math.PI * 2);
-    this.ctx.fill();
-    this.ctx.restore();
+    // Dark background
+    this.ctx.fillStyle = 'rgba(8, 5, 15, 1)';
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    
+    // Draw particles
+    this.ctx.globalCompositeOperation = 'screen';
+    this.ctx.filter = 'blur(120px)';
+    
+    this.particles.forEach((p, i) => {
+      // Subtle movement
+      p.x += p.vx * (Math.sin(this.time + i) * 0.3 + 0.7);
+      p.y += p.vy * (Math.cos(this.time * 0.7 + i) * 0.3 + 0.7);
+      
+      // Boundary wrapping
+      if (p.x < -p.size) p.x = this.canvas.width + p.size;
+      if (p.x > this.canvas.width + p.size) p.x = -p.size;
+      if (p.y < -p.size) p.y = this.canvas.height + p.size;
+      if (p.y > this.canvas.height + p.size) p.y = -p.size;
+      
+      // Mouse attraction (subtle)
+      const dx = this.mouse.x * this.canvas.width - p.x;
+      const dy = this.mouse.y * this.canvas.height - p.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      
+      if (dist < 300) {
+        p.x += (dx / dist) * 0.02;
+        p.y += (dy / dist) * 0.02;
+      }
+      
+      // Draw particle
+      const gradient = this.ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size);
+      gradient.addColorStop(0, this.hexToRgba(p.color, 0.4));
+      gradient.addColorStop(1, this.hexToRgba(p.color, 0));
+      
+      this.ctx.fillStyle = gradient;
+      this.ctx.beginPath();
+      this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      this.ctx.fill();
+    });
+    
+    this.ctx.globalCompositeOperation = 'source-over';
+    this.ctx.filter = 'none';
+    
+    requestAnimationFrame(() => this.animate());
   }
   
   hexToRgba(hex, alpha) {
@@ -70,42 +110,11 @@ class GradientBackground {
     const b = parseInt(hex.slice(5, 7), 16);
     return `rgba(${r}, ${g}, ${b}, ${alpha})`;
   }
-  
-  animate() {
-    this.time += 0.005;
-    
-    this.ctx.fillStyle = 'rgba(5, 3, 10, 1)';
-    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-    
-    this.ctx.globalCompositeOperation = 'screen';
-    this.ctx.filter = 'blur(60px)';
-    
-    this.gradients.forEach((grad, index) => {
-      const parallaxX = (this.mouse.x - 0.5) * this.canvas.width * 0.05;
-      const parallaxY = (this.mouse.y - 0.5) * this.canvas.height * 0.05;
-      
-      const floatX = Math.sin(this.time + index * 0.8) * 60;
-      const floatY = Math.cos(this.time * 0.6 + index * 0.8) * 60;
-      
-      const x = (grad.x * this.canvas.width) + parallaxX + floatX;
-      const y = (grad.y * this.canvas.height) + parallaxY + floatY;
-      
-      const sizeVariation = Math.sin(this.time * 0.3 + index) * 25;
-      const radiusY = grad.ry + sizeVariation;
-      const radiusX = grad.rx + sizeVariation;
-      
-      this.drawEllipse(x, y, radiusX, radiusY, grad.color, 0.35);
-    });
-    
-    this.ctx.filter = 'none';
-    this.ctx.globalCompositeOperation = 'source-over';
-    requestAnimationFrame(() => this.animate());
-  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   const bgContainer = document.getElementById('background');
   if (bgContainer) {
-    new GradientBackground('background');
+    new DynamicBackground('background');
   }
 });
