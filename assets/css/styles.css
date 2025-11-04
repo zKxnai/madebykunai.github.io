@@ -1094,3 +1094,54 @@ html {
         font-size: 0.95rem;
     }
 }
+
+@keyframes lavaFlow {
+    0% {
+      color: #ffffff;
+      text-shadow: 
+        0 0 10px rgba(255, 100, 50, 0.3),
+        0 0 20px rgba(255, 50, 0, 0);
+    }
+    25% {
+      color: #ffe680;
+      text-shadow: 
+        0 0 15px rgba(255, 150, 0, 0.6),
+        0 0 30px rgba(255, 100, 0, 0.3);
+    }
+    50% {
+      color: #ff6b35;
+      text-shadow: 
+        0 0 20px rgba(255, 100, 50, 0.8),
+        0 0 35px rgba(255, 50, 0, 0.5);
+    }
+    75% {
+      color: #ff4500;
+      text-shadow: 
+        0 0 15px rgba(255, 80, 20, 0.7),
+        0 0 25px rgba(255, 30, 0, 0.3);
+    }
+    100% {
+      color: #ffffff;
+      text-shadow: 
+        0 0 10px rgba(255, 100, 50, 0.2),
+        0 0 20px rgba(255, 50, 0, 0);
+    }
+  }
+  
+  .lava-lamp-title {
+    font-size: 4rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+  
+  .lava-letter {
+    display: inline-block;
+    animation: lavaFlow 3s ease-in-out infinite;
+    animation-delay: var(--delay);
+  }
+
+  .lava-letter:hover {
+    animation-play-state: paused;
+    filter: brightness(1.3);
+  }
+  
