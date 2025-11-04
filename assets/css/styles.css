@@ -732,7 +732,7 @@ html {
 /* Mobile Optimization for Legal Pages */
 @media (max-width: 768px) {
     .legal-page {
-        padding: 40px 20px 80px;
+        padding: 40px 20px 40px;
     }
 
     .back-button {
@@ -788,7 +788,7 @@ html {
 /* Extra Small Devices (< 480px) */
 @media (max-width: 480px) {
     .legal-page {
-        padding: 30px 16px 60px;
+        padding: 30px 16px 30px;
     }
 
     .back-button {
