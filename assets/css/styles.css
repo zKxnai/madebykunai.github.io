@@ -1095,36 +1095,15 @@ html {
     }
 }
 
-@keyframes lavaFlow {
+@keyframes gradientShift {
     0% {
-      color: #ffffff;
-      text-shadow: 
-        0 0 10px rgba(255, 100, 50, 0.3),
-        0 0 20px rgba(255, 50, 0, 0);
-    }
-    25% {
-      color: #ffe680;
-      text-shadow: 
-        0 0 15px rgba(255, 150, 0, 0.6),
-        0 0 30px rgba(255, 100, 0, 0.3);
+      background-position: 0% 50%;
     }
     50% {
-      color: #ff6b35;
-      text-shadow: 
-        0 0 20px rgba(255, 100, 50, 0.8),
-        0 0 35px rgba(255, 50, 0, 0.5);
-    }
-    75% {
-      color: #ff4500;
-      text-shadow: 
-        0 0 15px rgba(255, 80, 20, 0.7),
-        0 0 25px rgba(255, 30, 0, 0.3);
+      background-position: 100% 50%;
     }
     100% {
-      color: #ffffff;
-      text-shadow: 
-        0 0 10px rgba(255, 100, 50, 0.2),
-        0 0 20px rgba(255, 50, 0, 0);
+      background-position: 0% 50%;
     }
   }
   
@@ -1132,16 +1111,27 @@ html {
     font-size: 4rem;
     font-weight: 700;
     letter-spacing: 0.05em;
+    font-family: 'Onest', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
   }
   
   .lava-letter {
     display: inline-block;
-    animation: lavaFlow 3s ease-in-out infinite;
+    background: linear-gradient(
+      90deg,
+      #ffffff 0%,
+      #3aed5e 15%,
+      #21b62d 25%,
+      #811e8a 40%,
+      #c7028f 55%,
+      #60ebfa 70%,
+      #96b894 85%,
+      #ffffff 100%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientShift 3s ease-in-out infinite;
     animation-delay: var(--delay);
-  }
-
-  .lava-letter:hover {
-    animation-play-state: paused;
-    filter: brightness(1.3);
   }
   
