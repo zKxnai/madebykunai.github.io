@@ -17,16 +17,16 @@ class GradientBackground {
       '#96b894'  // Light gray-green
     ];
     
-    // More gradients with oval shapes (x, y, radiusX, radiusY)
+    // Gradients with fixed oval shapes (no transform scaling needed)
     this.gradients = [
-      { x: 0.15, y: 0.15, rx: 520, ry: 400, color: this.colors[0] },
-      { x: 0.85, y: 0.1, rx: 480, ry: 420, color: this.colors[2] },
-      { x: 0.9, y: 0.8, rx: 540, ry: 380, color: this.colors[3] },
-      { x: 0.1, y: 0.85, rx: 500, ry: 410, color: this.colors[4] },
-      { x: 0.5, y: 0.5, rx: 460, ry: 400, color: this.colors[1] },
-      { x: 0.5, y: 0.15, rx: 520, ry: 390, color: this.colors[5] },
-      { x: 0.15, y: 0.5, rx: 480, ry: 420, color: this.colors[3] },
-      { x: 0.85, y: 0.5, rx: 510, ry: 400, color: this.colors[4] }
+      { x: 0.15, y: 0.15, rx: 280, ry: 220, color: this.colors[0] },
+      { x: 0.85, y: 0.1, rx: 260, ry: 240, color: this.colors[2] },
+      { x: 0.9, y: 0.8, rx: 300, ry: 220, color: this.colors[3] },
+      { x: 0.1, y: 0.85, rx: 280, ry: 240, color: this.colors[4] },
+      { x: 0.5, y: 0.5, rx: 250, ry: 230, color: this.colors[1] },
+      { x: 0.5, y: 0.15, rx: 290, ry: 225, color: this.colors[5] },
+      { x: 0.15, y: 0.5, rx: 260, ry: 245, color: this.colors[3] },
+      { x: 0.85, y: 0.5, rx: 280, ry: 230, color: this.colors[4] }
     ];
     
     this.mouse = { x: 0.5, y: 0.5 };
@@ -52,13 +52,10 @@ class GradientBackground {
   }
   
   drawEllipse(x, y, radiusX, radiusY, color, opacity) {
-    // Create radial gradient
-    const maxRadius = Math.max(radiusX, radiusY);
-    const gradient = this.ctx.createRadialGradient(x, y, 0, x, y, maxRadius);
+    const gradient = this.ctx.createRadialGradient(x, y, 0, x, y, Math.max(radiusX, radiusY));
     gradient.addColorStop(0, this.hexToRgba(color, opacity));
     gradient.addColorStop(1, this.hexToRgba(color, 0));
     
-    // Draw ellipse using proper canvas method
     this.ctx.save();
     this.ctx.translate(x, y);
     this.ctx.scale(radiusX / radiusY, 1);
@@ -79,29 +76,23 @@ class GradientBackground {
   animate() {
     this.time += 0.005;
     
-    // Fill with slightly darkened background
     this.ctx.fillStyle = 'rgba(5, 3, 10, 1)';
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     
-    // Use additive/screen blending for overlapping gradients
     this.ctx.globalCompositeOperation = 'screen';
-    this.ctx.filter = 'blur(100px)';
+    this.ctx.filter = 'blur(60px)'; // Reduced from 100px
     
     this.gradients.forEach((grad, index) => {
-      // Minimal parallax
       const parallaxX = (this.mouse.x - 0.5) * this.canvas.width * 0.05;
       const parallaxY = (this.mouse.y - 0.5) * this.canvas.height * 0.05;
       
-      // Independent floating animation
       const floatX = Math.sin(this.time + index * 0.8) * 60;
       const floatY = Math.cos(this.time * 0.6 + index * 0.8) * 60;
       
-      // Position blobs throughout viewport
       const x = (grad.x * this.canvas.width) + parallaxX + floatX;
       const y = (grad.y * this.canvas.height) + parallaxY + floatY;
       
-      // Size variation
-      const sizeVariation = Math.sin(this.time * 0.3 + index) * 30;
+      const sizeVariation = Math.sin(this.time * 0.3 + index) * 20;
       const radiusY = grad.ry + sizeVariation;
       const radiusX = grad.rx + sizeVariation;
       
@@ -114,7 +105,6 @@ class GradientBackground {
   }
 }
 
-// Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
   const bgContainer = document.getElementById('background');
   if (bgContainer) {
