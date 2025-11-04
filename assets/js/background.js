@@ -17,16 +17,16 @@ class GradientBackground {
         '#96b894'  // Light gray-green
       ];
       
-      // More gradients, distributed across the entire viewport
+      // More gradients with oval shapes (x, y, scaleX for width)
       this.gradients = [
-        { x: 0.15, y: 0.15, color: this.colors[0] },    // Green - top left
-        { x: 0.85, y: 0.1, color: this.colors[2] },     // Purple - top right
-        { x: 0.9, y: 0.8, color: this.colors[3] },      // Pink - bottom right
-        { x: 0.1, y: 0.85, color: this.colors[4] },     // Cyan - bottom left
-        { x: 0.5, y: 0.5, color: this.colors[1] },      // Dark green - center
-        { x: 0.5, y: 0.15, color: this.colors[5] },     // Light gray - top center
-        { x: 0.15, y: 0.5, color: this.colors[3] },     // Pink - left center
-        { x: 0.85, y: 0.5, color: this.colors[4] }      // Cyan - right center
+        { x: 0.15, y: 0.15, scaleX: 1.3, color: this.colors[0] },
+        { x: 0.85, y: 0.1, scaleX: 1.2, color: this.colors[2] },
+        { x: 0.9, y: 0.8, scaleX: 1.4, color: this.colors[3] },
+        { x: 0.1, y: 0.85, scaleX: 1.3, color: this.colors[4] },
+        { x: 0.5, y: 0.5, scaleX: 1.2, color: this.colors[1] },
+        { x: 0.5, y: 0.15, scaleX: 1.35, color: this.colors[5] },
+        { x: 0.15, y: 0.5, scaleX: 1.25, color: this.colors[3] },
+        { x: 0.85, y: 0.5, scaleX: 1.3, color: this.colors[4] }
       ];
       
       this.mouse = { x: 0.5, y: 0.5 };
@@ -51,12 +51,18 @@ class GradientBackground {
       this.mouse.y = e.clientY / window.innerHeight;
     }
     
-    drawBlob(x, y, size, color, opacity) {
-      const gradient = this.ctx.createRadialGradient(x, y, 0, x, y, size);
+    drawOval(x, y, sizeX, sizeY, color, opacity) {
+      const gradient = this.ctx.createRadialGradient(x, y, 0, x, y, Math.max(sizeX, sizeY));
       gradient.addColorStop(0, this.hexToRgba(color, opacity));
       gradient.addColorStop(1, this.hexToRgba(color, 0));
+      
+      this.ctx.save();
+      this.ctx.translate(x, y);
+      this.ctx.scale(sizeX / sizeY, 1);
+      this.ctx.translate(-x, -y);
       this.ctx.fillStyle = gradient;
-      this.ctx.fillRect(x - size, y - size, size * 2, size * 2);
+      this.ctx.fillRect(x - sizeY, y - sizeY, sizeY * 2, sizeY * 2);
+      this.ctx.restore();
     }
     
     hexToRgba(hex, alpha) {
@@ -67,31 +73,34 @@ class GradientBackground {
     }
     
     animate() {
-      this.time += 0.01;
+      this.time += 0.005; // Slower animation for smoother movement
       
-      // Fill with slightly darkened background (instead of pure black)
-      this.ctx.fillStyle = 'rgba(5, 3, 10, 1)'; // Very dark purple-gray
+      // Fill with slightly darkened background
+      this.ctx.fillStyle = 'rgba(5, 3, 10, 1)';
       this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
       
       // Use additive/screen blending for overlapping gradients
       this.ctx.globalCompositeOperation = 'screen';
-      this.ctx.filter = 'blur(100px)'; // More blur for softer blending
+      this.ctx.filter = 'blur(100px)';
       
       this.gradients.forEach((grad, index) => {
-        // Parallax - cursor pulls gradients toward it
-        const parallaxX = (this.mouse.x - 0.5) * this.canvas.width * 0.25;
-        const parallaxY = (this.mouse.y - 0.5) * this.canvas.height * 0.25;
+        // Minimal parallax - only very slight response to mouse (5% of movement)
+        const parallaxX = (this.mouse.x - 0.5) * this.canvas.width * 0.05;
+        const parallaxY = (this.mouse.y - 0.5) * this.canvas.height * 0.05;
         
-        // Gentle floating animation
-        const floatX = Math.sin(this.time + index * 0.5) * 40;
-        const floatY = Math.cos(this.time * 0.7 + index * 0.5) * 40;
+        // Independent floating animation for each blob
+        const floatX = Math.sin(this.time + index * 0.8) * 60;
+        const floatY = Math.cos(this.time * 0.6 + index * 0.8) * 60;
         
         // Position blobs throughout viewport
         const x = (grad.x * this.canvas.width) + parallaxX + floatX;
         const y = (grad.y * this.canvas.height) + parallaxY + floatY;
-        const size = 350 + Math.sin(this.time * 0.5 + index) * 100;
         
-        this.drawBlob(x, y, size, grad.color, 0.4);
+        // Larger size with less variation
+        const sizeY = 400 + Math.sin(this.time * 0.3 + index) * 50;
+        const sizeX = sizeY * grad.scaleX; // Oval shape
+        
+        this.drawOval(x, y, sizeX, sizeY, grad.color, 0.35);
       });
       
       this.ctx.filter = 'none';
