@@ -1,4 +1,4 @@
-class MeshGradientBackground {
+class ProfessionalGradientBackground {
   constructor(containerId) {
     this.container = document.getElementById(containerId);
     if (!this.container) return;
@@ -7,18 +7,19 @@ class MeshGradientBackground {
     this.ctx = this.canvas.getContext('2d');
     this.container.appendChild(this.canvas);
     
-    // Mesh gradient configuration - Apple style
-    this.gridSize = 4; // 4x4 grid = 16 control points
-    this.points = [];
+    // Sophisticated, neutral palette - iOS inspired but timeless
     this.colors = [
-      { r: 58, g: 237, b: 94 },   // #3aed5e green
-      { r: 96, g: 235, b: 250 },  // #60ebfa cyan
-      { r: 199, g: 2, b: 143 },   // #c7028f pink
-      { r: 129, g: 30, b: 138 },  // #811e8a purple
-      { r: 33, g: 182, b: 45 }    // #21b62d dark green
+      { r: 75, g: 85, b: 115 },    // Slate blue
+      { r: 95, g: 75, b: 105 },    // Deep purple-gray
+      { r: 70, g: 90, b: 100 },    // Cool teal-gray
+      { r: 85, g: 75, b: 95 },     // Muted purple
+      { r: 65, g: 80, b: 105 }     // Steel blue
     ];
     
+    this.gridSize = 4;
+    this.points = [];
     this.time = 0;
+    
     this.init();
   }
   
@@ -44,10 +45,10 @@ class MeshGradientBackground {
         this.points.push({
           baseX: x * spacing,
           baseY: y * spacing,
-          offsetX: (Math.random() - 0.5) * 0.15,
-          offsetY: (Math.random() - 0.5) * 0.15,
-          speedX: (Math.random() - 0.5) * 0.3,
-          speedY: (Math.random() - 0.5) * 0.3,
+          offsetX: (Math.random() - 0.5) * 0.12,
+          offsetY: (Math.random() - 0.5) * 0.12,
+          speedX: (Math.random() - 0.5) * 0.25,
+          speedY: (Math.random() - 0.5) * 0.25,
           color: this.colors[index % this.colors.length]
         });
       }
@@ -55,19 +56,23 @@ class MeshGradientBackground {
   }
   
   animate() {
-    this.time += 0.004;
+    this.time += 0.003;
     
-    // Deep, rich black background
-    this.ctx.fillStyle = '#0a0812';
+    // Rich, professional dark background
+    this.ctx.fillStyle = '#0d0f14';
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     
-    // Update point positions
+    // Update positions with subtle, organic movement
     this.points.forEach((point, i) => {
-      point.offsetX += Math.sin(this.time + i) * 0.0005;
-      point.offsetY += Math.cos(this.time * 0.8 + i) * 0.0005;
+      point.offsetX += Math.sin(this.time + i * 0.5) * 0.0004;
+      point.offsetY += Math.cos(this.time * 0.7 + i * 0.5) * 0.0004;
+      
+      // Keep within bounds
+      point.offsetX = Math.max(-0.15, Math.min(0.15, point.offsetX));
+      point.offsetY = Math.max(-0.15, Math.min(0.15, point.offsetY));
     });
     
-    // Draw mesh gradient
+    // Draw sophisticated mesh
     this.ctx.globalCompositeOperation = 'lighter';
     
     for (let y = 0; y < this.gridSize - 1; y++) {
@@ -100,18 +105,15 @@ class MeshGradientBackground {
     const x4 = (p4.baseX + p4.offsetX) * this.canvas.width;
     const y4 = (p4.baseY + p4.offsetY) * this.canvas.height;
     
-    // Center point
     const cx = (x1 + x2 + x3 + x4) / 4;
     const cy = (y1 + y2 + y3 + y4) / 4;
     
-    // Average color
     const avgColor = {
       r: Math.floor((p1.color.r + p2.color.r + p3.color.r + p4.color.r) / 4),
       g: Math.floor((p1.color.g + p2.color.g + p3.color.g + p4.color.g) / 4),
       b: Math.floor((p1.color.b + p2.color.b + p3.color.b + p4.color.b) / 4)
     };
     
-    // Create radial gradient from center
     const maxDist = Math.max(
       Math.hypot(x1 - cx, y1 - cy),
       Math.hypot(x2 - cx, y2 - cy),
@@ -119,12 +121,12 @@ class MeshGradientBackground {
       Math.hypot(x4 - cx, y4 - cy)
     );
     
-    const gradient = this.ctx.createRadialGradient(cx, cy, 0, cx, cy, maxDist * 1.5);
-    gradient.addColorStop(0, `rgba(${avgColor.r}, ${avgColor.g}, ${avgColor.b}, 0.25)`);
+    const gradient = this.ctx.createRadialGradient(cx, cy, 0, cx, cy, maxDist * 1.4);
+    gradient.addColorStop(0, `rgba(${avgColor.r}, ${avgColor.g}, ${avgColor.b}, 0.35)`);
     gradient.addColorStop(1, `rgba(${avgColor.r}, ${avgColor.g}, ${avgColor.b}, 0)`);
     
     this.ctx.fillStyle = gradient;
-    this.ctx.filter = 'blur(60px)';
+    this.ctx.filter = 'blur(70px)';
     
     this.ctx.beginPath();
     this.ctx.moveTo(x1, y1);
@@ -141,6 +143,6 @@ class MeshGradientBackground {
 document.addEventListener('DOMContentLoaded', () => {
   const bgContainer = document.getElementById('background');
   if (bgContainer) {
-    new MeshGradientBackground('background');
+    new ProfessionalGradientBackground('background');
   }
 });
