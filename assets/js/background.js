@@ -26,19 +26,19 @@ class TopGradientBackground {
     this.ctx.fillStyle = '#0a1428';
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-    // MAIN TOP GLOW - Strong, centered
+    // Top light source that fades with distance
     const gradient = this.ctx.createRadialGradient(
-      this.canvas.width / 2, 0,  // Center top
+      this.canvas.width / 2, -100,    // Start above top, as light source
       0,
-      this.canvas.width / 2, this.canvas.height * 0.5,
-      this.canvas.width * 0.7
+      this.canvas.width / 2, this.canvas.height * 0.7,  // Fade extends lower
+      this.canvas.width * 0.8
     );
     
-    gradient.addColorStop(0, 'rgba(100, 150, 220, 0.6)');     // Bright at center
-    gradient.addColorStop(0.15, 'rgba(80, 130, 200, 0.45)');
-    gradient.addColorStop(0.4, 'rgba(60, 100, 170, 0.25)');
-    gradient.addColorStop(0.7, 'rgba(40, 70, 130, 0.1)');
-    gradient.addColorStop(1, 'rgba(30, 50, 100, 0)');
+    gradient.addColorStop(0, 'rgba(100, 150, 220, 0.55)');      // Bright at source
+    gradient.addColorStop(0.25, 'rgba(80, 130, 200, 0.35)');    // Still visible
+    gradient.addColorStop(0.5, 'rgba(60, 100, 170, 0.15)');     // Fading
+    gradient.addColorStop(0.75, 'rgba(40, 70, 130, 0.05)');     // Nearly transparent
+    gradient.addColorStop(1, 'rgba(30, 50, 100, 0)');           // Completely transparent
 
     this.ctx.fillStyle = gradient;
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
