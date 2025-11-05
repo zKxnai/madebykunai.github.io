@@ -86,8 +86,8 @@ body {
     animation:
       fadeInUp 1s ease forwards,
       gradientFlow 10s ease-in-out infinite;
-    opacity: 0;
-    transform: translateY(30px);
+    opacity: 1;
+    transform: translateY(0);
     text-shadow: 0 0 40px rgba(96, 235, 250, 0.3);
     filter: drop-shadow(0 0 30px rgba(96, 235, 250, 0.2));
 }
