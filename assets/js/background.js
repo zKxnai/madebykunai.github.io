@@ -1,4 +1,4 @@
-class TopGradientBackground {
+class TopGlowBackground {
   constructor(containerId) {
     this.container = document.getElementById(containerId);
     if (!this.container) return;
@@ -22,23 +22,25 @@ class TopGradientBackground {
   }
 
   draw() {
-    // Solid dark background
-    this.ctx.fillStyle = '#0a1428';
+    // Base dark background (#0b1313)
+    this.ctx.fillStyle = '#0b1313';
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-    // Top light source that fades with distance
+    // Light source positioned above the top of the screen
+    const centerX = this.canvas.width / 2;
+    const lightSourceY = -this.canvas.height * 0.3;  // Above viewport
+    
     const gradient = this.ctx.createRadialGradient(
-      this.canvas.width / 2, -100,
-      0,
-      this.canvas.width / 2, this.canvas.height * 0.5,  // Fade extends lower
-      this.canvas.width * 0.8
+      centerX, lightSourceY, 0,
+      centerX, lightSourceY,
+      this.canvas.height * 1.2  // Large radius for smooth fade
     );
     
-    gradient.addColorStop(0, 'rgba(100, 150, 220, 0.55)');      // Bright at source
-    gradient.addColorStop(0.25, 'rgba(80, 130, 200, 0.35)');    // Still visible
-    gradient.addColorStop(0.5, 'rgba(60, 100, 170, 0.15)');     // Fading
-    gradient.addColorStop(0.75, 'rgba(40, 70, 130, 0.05)');     // Nearly transparent
-    gradient.addColorStop(1, 'rgba(30, 50, 100, 0)');           // Completely transparent
+    gradient.addColorStop(0, 'rgba(20, 45, 58, 0.5)');      // #142d3a center
+    gradient.addColorStop(0.25, 'rgba(20, 45, 58, 0.3)');   
+    gradient.addColorStop(0.5, 'rgba(15, 35, 45, 0.12)');   
+    gradient.addColorStop(0.75, 'rgba(11, 19, 19, 0.03)');  
+    gradient.addColorStop(1, 'rgba(11, 19, 19, 0)');        // Fully transparent
 
     this.ctx.fillStyle = gradient;
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
@@ -48,6 +50,6 @@ class TopGradientBackground {
 document.addEventListener('DOMContentLoaded', () => {
   const bgContainer = document.getElementById('background');
   if (bgContainer) {
-    new TopGradientBackground('background');
+    new TopGlowBackground('background');
   }
 });
