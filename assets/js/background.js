@@ -29,7 +29,7 @@ class TopGradientBackground {
     
     // Large, powerful top-center glow (primary)
     const gradient1 = this.ctx.createRadialGradient(
-      this.canvas.width / 2, -150,  // Start above viewport
+      this.canvas.width / 2, -150,
       0,
       this.canvas.width / 2, this.canvas.height * 0.5,
       this.canvas.width * 1.2
