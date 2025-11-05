@@ -28,9 +28,9 @@ class TopGradientBackground {
 
     // Top light source that fades with distance
     const gradient = this.ctx.createRadialGradient(
-      this.canvas.width / 2, -100,    // Start above top, as light source
+      this.canvas.width / 2, -100,
       0,
-      this.canvas.width / 2, this.canvas.height * 0.7,  // Fade extends lower
+      this.canvas.width / 2, this.canvas.height * 0.5,  // Fade extends lower
       this.canvas.width * 0.8
     );
     
