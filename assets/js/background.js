@@ -24,24 +24,43 @@ class TopGradientBackground {
   
   draw() {
     // Deep dark background
-    this.ctx.fillStyle = '#0a0a0f';
+    this.ctx.fillStyle = '#080a0f';
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     
-    // Create top-down gradient glow
-    const gradient = this.ctx.createRadialGradient(
-      this.canvas.width / 2, 0,  // Center top
+    // Large, powerful top-center glow (primary)
+    const gradient1 = this.ctx.createRadialGradient(
+      this.canvas.width / 2, -150,  // Start above viewport
       0,
-      this.canvas.width / 2, this.canvas.height * 0.4,
-      this.canvas.width * 0.7
+      this.canvas.width / 2, this.canvas.height * 0.5,
+      this.canvas.width * 1.2
     );
     
-    // Subtle, elegant glow
-    gradient.addColorStop(0, 'rgba(100, 120, 180, 0.15)');
-    gradient.addColorStop(0.4, 'rgba(80, 100, 140, 0.08)');
-    gradient.addColorStop(1, 'rgba(60, 80, 120, 0)');
+    gradient1.addColorStop(0, 'rgba(130, 150, 200, 0.4)');
+    gradient1.addColorStop(0.2, 'rgba(100, 130, 180, 0.25)');
+    gradient1.addColorStop(0.5, 'rgba(70, 100, 150, 0.12)');
+    gradient1.addColorStop(1, 'rgba(50, 80, 120, 0)');
     
-    this.ctx.fillStyle = gradient;
+    this.ctx.filter = 'blur(120px)';
+    this.ctx.fillStyle = gradient1;
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    
+    // Secondary glow layer for more intensity
+    const gradient2 = this.ctx.createRadialGradient(
+      this.canvas.width / 2, -100,
+      0,
+      this.canvas.width / 2, this.canvas.height * 0.6,
+      this.canvas.width * 0.9
+    );
+    
+    gradient2.addColorStop(0, 'rgba(110, 140, 190, 0.25)');
+    gradient2.addColorStop(0.3, 'rgba(90, 120, 170, 0.15)');
+    gradient2.addColorStop(0.7, 'rgba(70, 100, 150, 0.05)');
+    gradient2.addColorStop(1, 'rgba(50, 80, 120, 0)');
+    
+    this.ctx.fillStyle = gradient2;
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    
+    this.ctx.filter = 'none';
   }
 }
 
