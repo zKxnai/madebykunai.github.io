@@ -71,25 +71,26 @@ body {
     margin-bottom: 1.5rem;
     line-height: 1.2;
     padding: 0.2rem 0;
+    
     background: linear-gradient(
-      110deg,
-      #60ebfa 0%,      /* Bright cyan (top glow color) */
-      #3aed5e 25%,     /* Green accent */
-      #3aed5e 45%,     /* Green hold */
-      #60ebfa 65%,     /* Cyan return */
-      #a0e7ff 100%     /* Lighter cyan fade */
+        #60ebfa 0%,      /* Bright cyan (top glow color) */
+        #3aed5e 25%,     /* Green accent */
+        #3aed5e 45%,     /* Green hold */
+        #60ebfa 65%,     /* Cyan return */
+        #a0e7ff 100%     /* Lighter cyan fade */
     );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    
     background-size: 200% auto;
-    animation:
-      fadeInUp 1s ease forwards,
-      gradientFlow 10s ease-in-out infinite;
-    opacity: 1;
-    transform: translateY(0);
-    text-shadow: 0 0 40px rgba(96, 235, 250, 0.3);
-    filter: drop-shadow(0 0 30px rgba(96, 235, 250, 0.2));
+    
+    animation: 
+        fadeInUp 1s ease forwards,
+        gradientFlow 10s ease-in-out infinite;
+    
+    opacity: 0;
+    transform: translateY(30px);
 }
 
 .hero p {
