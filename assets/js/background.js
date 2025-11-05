@@ -1,4 +1,4 @@
-class TopGradientBackground {
+class DynamicBackground {
   constructor(containerId) {
     this.container = document.getElementById(containerId);
     if (!this.container) return;
@@ -7,66 +7,114 @@ class TopGradientBackground {
     this.ctx = this.canvas.getContext('2d');
     this.container.appendChild(this.canvas);
     
+    // Ultra-refined gradient with subtle movement
+    this.particles = [];
+    this.mouse = { x: 0, y: 0 };
+    this.time = 0;
+    
     this.init();
   }
   
   init() {
     this.resize();
     window.addEventListener('resize', () => this.resize());
-    this.draw();
+    document.addEventListener('mousemove', (e) => this.onMouseMove(e));
+    this.animate();
   }
   
   resize() {
     this.canvas.width = this.container.clientWidth;
     this.canvas.height = this.container.clientHeight;
-    this.draw();
+    
+    if (this.particles.length === 0) {
+      this.particles = this.createParticles();
+    }
   }
   
-  draw() {
-    // Deep dark background
-    this.ctx.fillStyle = '#080a0f';
+  createParticles() {
+    const particles = [];
+    const colors = ['#3aed5e', '#60ebfa', '#c7028f', '#21b62d', '#811e8a'];
+    
+    for (let i = 0; i < 5; i++) {
+      particles.push({
+        x: Math.random() * this.canvas.width,
+        y: Math.random() * this.canvas.height,
+        size: 150 + Math.random() * 250,
+        color: colors[i],
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.5,
+        angle: Math.random() * Math.PI * 2
+      });
+    }
+    
+    return particles;
+  }
+  
+  onMouseMove(e) {
+    this.mouse.x = e.clientX / window.innerWidth;
+    this.mouse.y = e.clientY / window.innerHeight;
+  }
+  
+  animate() {
+    this.time += 0.01;
+    
+    // Dark background
+    this.ctx.fillStyle = 'rgba(8, 5, 15, 1)';
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     
-    // Large, powerful top-center glow (primary)
-    const gradient1 = this.ctx.createRadialGradient(
-      this.canvas.width / 2, -150,
-      0,
-      this.canvas.width / 2, this.canvas.height * 0.5,
-      this.canvas.width * 1.2
-    );
-    
-    gradient1.addColorStop(0, 'rgba(130, 150, 200, 0.4)');
-    gradient1.addColorStop(0.2, 'rgba(100, 130, 180, 0.25)');
-    gradient1.addColorStop(0.5, 'rgba(70, 100, 150, 0.12)');
-    gradient1.addColorStop(1, 'rgba(50, 80, 120, 0)');
-    
+    // Draw particles
+    this.ctx.globalCompositeOperation = 'screen';
     this.ctx.filter = 'blur(120px)';
-    this.ctx.fillStyle = gradient1;
-    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     
-    // Secondary glow layer for more intensity
-    const gradient2 = this.ctx.createRadialGradient(
-      this.canvas.width / 2, -100,
-      0,
-      this.canvas.width / 2, this.canvas.height * 0.6,
-      this.canvas.width * 0.9
-    );
+    this.particles.forEach((p, i) => {
+      // Subtle movement
+      p.x += p.vx * (Math.sin(this.time + i) * 0.3 + 0.7);
+      p.y += p.vy * (Math.cos(this.time * 0.7 + i) * 0.3 + 0.7);
+      
+      // Boundary wrapping
+      if (p.x < -p.size) p.x = this.canvas.width + p.size;
+      if (p.x > this.canvas.width + p.size) p.x = -p.size;
+      if (p.y < -p.size) p.y = this.canvas.height + p.size;
+      if (p.y > this.canvas.height + p.size) p.y = -p.size;
+      
+      // Mouse attraction (subtle)
+      const dx = this.mouse.x * this.canvas.width - p.x;
+      const dy = this.mouse.y * this.canvas.height - p.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      
+      if (dist < 300) {
+        p.x += (dx / dist) * 0.02;
+        p.y += (dy / dist) * 0.02;
+      }
+      
+      // Draw particle
+      const gradient = this.ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size);
+      gradient.addColorStop(0, this.hexToRgba(p.color, 0.4));
+      gradient.addColorStop(1, this.hexToRgba(p.color, 0));
+      
+      this.ctx.fillStyle = gradient;
+      this.ctx.beginPath();
+      this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      this.ctx.fill();
+    });
     
-    gradient2.addColorStop(0, 'rgba(110, 140, 190, 0.25)');
-    gradient2.addColorStop(0.3, 'rgba(90, 120, 170, 0.15)');
-    gradient2.addColorStop(0.7, 'rgba(70, 100, 150, 0.05)');
-    gradient2.addColorStop(1, 'rgba(50, 80, 120, 0)');
-    
-    this.ctx.fillStyle = gradient2;
-    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-    
+    this.ctx.globalCompositeOperation = 'source-over';
     this.ctx.filter = 'none';
+    
+    requestAnimationFrame(() => this.animate());
+  }
+  
+  hexToRgba(hex, alpha) {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
   }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   const bgContainer = document.getElementById('background');
   if (bgContainer) {
-    new TopGradientBackground('background');
+    new DynamicBackground('background');
   }
 });
