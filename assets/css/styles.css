@@ -1152,3 +1152,26 @@ html {
         opacity: 0.8;
     }
 }
+
+.apps-section {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    padding: 2rem;
+    background: rgba(10, 20, 40, 0.95);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 10;
+}
+  
+.app-card {
+    text-align: center;
+    padding: 1.5rem;
+    border-radius: 12px;
+    background: rgba(28, 28, 30, 0.7);
+}
+  
