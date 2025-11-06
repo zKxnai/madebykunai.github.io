@@ -50,36 +50,59 @@ body {
     height: 100%;
 }
 
-/* Hero Section - Minimalist iOS Style */
+/* Hero Section */
 .hero {
-    position: relative;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     text-align: center;
-    padding: 2rem;
-    background: linear-gradient(135deg, #0b1313 0%, #1a2a2f 100%);
-    overflow: hidden;
+    position: relative;
+    z-index: 1;
+    padding: 0 20px;
 }
 
 .hero h1 {
-    font-size: clamp(3rem, 8vw, 6rem);
-    font-weight: 700;
+    font-family: 'Onest', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+    font-size: clamp(3rem, 10vw, 5.5rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
     margin-bottom: 1.5rem;
-    line-height: 1.1;
-    color: #ffffff;
-    letter-spacing: -0.02em;
+    line-height: 1.2;
+    padding: 0.2rem 0;
+    
+    background: linear-gradient(
+        110deg,
+        #3aed5e 0%,      /* Green */
+        #21b62d 25%,     /* Deep Green */
+        #811e8a 45%,     /* Pink purple */
+        #c7028f 65%,     /* Pink */
+        #60ebfa 80%,     /* Light blue */
+        #96b894 100%     /* Cool green */
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    
+    background-size: 200% auto;
+    
+    animation: 
+        fadeInUp 1s ease forwards,
+        gradientFlow 10s ease-in-out infinite;
+    
+    opacity: 0;
+    transform: translateY(30px);
 }
 
 .hero p {
-    font-size: clamp(1.125rem, 2.5vw, 1.5rem);
-    max-width: 700px;
+    font-size: clamp(1rem, 3vw, 1.5rem);
+    color: rgba(255, 255, 255, 0.6);
+    max-width: 600px;
     margin: 0 auto;
-    line-height: 1.6;
-    color: rgba(255, 255, 255, 0.7);
-    font-weight: 400;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 1s ease 0.2s forwards;
 }
 
 @keyframes fadeInUp {
