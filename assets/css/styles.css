@@ -50,59 +50,87 @@ body {
     height: 100%;
 }
 
-/* Hero Section */
+/* Hero Section with Glassmorphism */
 .hero {
+    position: relative;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     text-align: center;
-    position: relative;
-    z-index: 1;
-    padding: 0 20px;
+    padding: 2rem;
+    overflow: hidden;
 }
 
 .hero h1 {
-    font-family: 'Onest', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
-    font-size: clamp(3rem, 10vw, 5.5rem);
+    font-size: clamp(3rem, 8vw, 6rem);
     font-weight: 800;
-    letter-spacing: -0.03em;
     margin-bottom: 1.5rem;
-    line-height: 1.2;
-    padding: 0.2rem 0;
+    line-height: 1.1;
+    position: relative;
     
+    /* Glassmorphism Effect */
     background: linear-gradient(
-        110deg,
-        #3aed5e 0%,      /* Green */
-        #21b62d 25%,     /* Deep Green */
-        #811e8a 45%,     /* Pink purple */
-        #c7028f 65%,     /* Pink */
-        #60ebfa 80%,     /* Light blue */
-        #96b894 100%     /* Cool green */
+        135deg,
+        rgba(255, 255, 255, 0.15) 0%,
+        rgba(255, 255, 255, 0.05) 100%
     );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     
-    background-size: 200% auto;
+    /* Glass texture with backdrop blur */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     
-    animation: 
-        fadeInUp 1s ease forwards,
-        gradientFlow 10s ease-in-out infinite;
+    /* Illuminated glow from light source */
+    text-shadow: 
+        0 8px 32px rgba(20, 45, 58, 0.4),      /* Colored light reflection */
+        0 4px 16px rgba(20, 45, 58, 0.3),      /* Mid glow */
+        0 -2px 8px rgba(142, 215, 240, 0.2),   /* Top highlight from light */
+        0 12px 24px rgba(0, 0, 0, 0.3);        /* Depth shadow */
     
-    opacity: 0;
-    transform: translateY(30px);
+    /* Inner glow effect */
+    filter: drop-shadow(0 0 20px rgba(20, 45, 58, 0.25));
 }
 
 .hero p {
-    font-size: clamp(1rem, 3vw, 1.5rem);
-    color: rgba(255, 255, 255, 0.6);
-    max-width: 600px;
-    margin: 0 auto;
-    opacity: 0;
-    transform: translateY(30px);
-    animation: fadeInUp 1s ease 0.2s forwards;
+    font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+    max-width: 700px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.6;
+    position: relative;
+    
+    /* Subtle glass effect for subtitle */
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.12) 0%,
+        rgba(255, 255, 255, 0.04) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    
+    /* Lighter illumination */
+    text-shadow: 
+        0 4px 16px rgba(20, 45, 58, 0.25),
+        0 2px 8px rgba(142, 215, 240, 0.15),
+        0 8px 16px rgba(0, 0, 0, 0.2);
+    
+    filter: drop-shadow(0 0 12px rgba(20, 45, 58, 0.15));
+}
+
+/* Add extra shine effect on hover */
+.hero h1:hover {
+    text-shadow: 
+        0 8px 32px rgba(20, 45, 58, 0.5),
+        0 4px 16px rgba(20, 45, 58, 0.4),
+        0 -2px 8px rgba(142, 215, 240, 0.3),
+        0 12px 24px rgba(0, 0, 0, 0.3);
+    
+    filter: drop-shadow(0 0 30px rgba(20, 45, 58, 0.35));
+    transition: all 0.3s ease;
 }
 
 @keyframes fadeInUp {

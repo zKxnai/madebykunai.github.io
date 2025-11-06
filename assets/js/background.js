@@ -26,21 +26,22 @@ class TopGlowBackground {
     this.ctx.fillStyle = '#0b1313';
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-    // Light source positioned above the top of the screen
+    // Light source positioned above viewport
     const centerX = this.canvas.width / 2;
-    const lightSourceY = -this.canvas.height * 0.3;  // Above viewport
+    const lightSourceY = -this.canvas.height * 0.3;
     
     const gradient = this.ctx.createRadialGradient(
       centerX, lightSourceY, 0,
       centerX, lightSourceY,
-      this.canvas.height * 1.2  // Large radius for smooth fade
+      this.canvas.height * 1.2
     );
     
-    gradient.addColorStop(0, 'rgba(20, 45, 58, 0.5)');      // #142d3a center
+    // Teal/cyan glow gradient
+    gradient.addColorStop(0, 'rgba(20, 45, 58, 0.5)');      // #142d3a bright center
     gradient.addColorStop(0.25, 'rgba(20, 45, 58, 0.3)');   
     gradient.addColorStop(0.5, 'rgba(15, 35, 45, 0.12)');   
     gradient.addColorStop(0.75, 'rgba(11, 19, 19, 0.03)');  
-    gradient.addColorStop(1, 'rgba(11, 19, 19, 0)');        // Fully transparent
+    gradient.addColorStop(1, 'rgba(11, 19, 19, 0)');
 
     this.ctx.fillStyle = gradient;
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
