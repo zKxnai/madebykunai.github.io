@@ -63,6 +63,7 @@ body {
     overflow: hidden;
 }
 
+/* Hero Section with Refined Glassmorphism */
 .hero h1 {
     font-size: clamp(3rem, 8vw, 6rem);
     font-weight: 800;
@@ -70,29 +71,18 @@ body {
     line-height: 1.1;
     position: relative;
     
-    /* Glassmorphism Effect */
-    background: linear-gradient(
-        135deg,
-        rgba(255, 255, 255, 0.15) 0%,
-        rgba(255, 255, 255, 0.05) 100%
-    );
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    /* Refined glass text with proper light color */
+    color: rgba(255, 255, 255, 0.9);
     
-    /* Glass texture with backdrop blur */
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    
-    /* Illuminated glow from light source */
+    /* Light reflection from #5a6975 glow */
     text-shadow: 
-        0 8px 32px rgba(20, 45, 58, 0.4),      /* Colored light reflection */
-        0 4px 16px rgba(20, 45, 58, 0.3),      /* Mid glow */
-        0 -2px 8px rgba(142, 215, 240, 0.2),   /* Top highlight from light */
-        0 12px 24px rgba(0, 0, 0, 0.3);        /* Depth shadow */
+        0 4px 12px rgba(90, 105, 117, 0.4),     /* Main colored glow from light */
+        0 2px 6px rgba(90, 105, 117, 0.3),      /* Mid-range glow */
+        0 8px 20px rgba(0, 0, 0, 0.4),          /* Depth shadow below */
+        0 -1px 4px rgba(142, 215, 240, 0.15);   /* Subtle top highlight */
     
-    /* Inner glow effect */
-    filter: drop-shadow(0 0 20px rgba(20, 45, 58, 0.25));
+    /* Outer glow matching your mockup */
+    filter: drop-shadow(0 0 24px rgba(90, 105, 117, 0.25));
 }
 
 .hero p {
@@ -102,34 +92,27 @@ body {
     line-height: 1.6;
     position: relative;
     
-    /* Subtle glass effect for subtitle */
-    background: linear-gradient(
-        135deg,
-        rgba(255, 255, 255, 0.12) 0%,
-        rgba(255, 255, 255, 0.04) 100%
-    );
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    /* Lighter glass effect for subtitle */
+    color: rgba(255, 255, 255, 0.75);
     
-    /* Lighter illumination */
+    /* Subtle illumination matching mockup */
     text-shadow: 
-        0 4px 16px rgba(20, 45, 58, 0.25),
-        0 2px 8px rgba(142, 215, 240, 0.15),
-        0 8px 16px rgba(0, 0, 0, 0.2);
+        0 2px 8px rgba(90, 105, 117, 0.25),
+        0 1px 4px rgba(90, 105, 117, 0.2),
+        0 6px 12px rgba(0, 0, 0, 0.3);
     
-    filter: drop-shadow(0 0 12px rgba(20, 45, 58, 0.15));
+    filter: drop-shadow(0 0 16px rgba(90, 105, 117, 0.15));
 }
 
-/* Add extra shine effect on hover */
+/* Hover enhancement */
 .hero h1:hover {
     text-shadow: 
-        0 8px 32px rgba(20, 45, 58, 0.5),
-        0 4px 16px rgba(20, 45, 58, 0.4),
-        0 -2px 8px rgba(142, 215, 240, 0.3),
-        0 12px 24px rgba(0, 0, 0, 0.3);
+        0 4px 12px rgba(90, 105, 117, 0.5),
+        0 2px 6px rgba(90, 105, 117, 0.4),
+        0 8px 20px rgba(0, 0, 0, 0.4),
+        0 -1px 4px rgba(142, 215, 240, 0.2);
     
-    filter: drop-shadow(0 0 30px rgba(20, 45, 58, 0.35));
+    filter: drop-shadow(0 0 32px rgba(90, 105, 117, 0.35));
     transition: all 0.3s ease;
 }
 
