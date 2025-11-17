@@ -128,8 +128,15 @@
     },
     {
       "name": "readme",
-      "version": "5.3",
+      "version": "5.4",
       "releases": [
+        {
+          "version": "5.4",
+          "changelog": "- Fixed review loading indicator bug\r\n- Fixed series import duplication bug\r\n- Fixed price notification not working\r\n- Renamed \"Progress\" and \"TBR\" Tab\r\n- Divided Reviews in \"Books\" and \"Series\"\r\n- Changed \"Book Series\" to \"Series\"\r\n- Changed \"Review\" text box to \"Notes\"\r\n- Added counter to sub tab titles\r\n- Added sorting to Reading, Wishlist, Series and Review\r\n- Added print and e-book tag to Reading and Wishlist\r\n- Added currency picker for manual price fallback\r\n- Added feedback pop-up on start up\r\n- Added price change indicator badge\r\n- Adjusted manual price tolerance\r\n- Adjusted price fetch functionality\r\n- Reduced price check interval",
+          "releaseUrl": "https://github.com/zKxnai/readme/releases/tag/5.4",
+          "publishedAt": "2025-11-17T11:12:15Z",
+          "isPrerelease": false
+        },
         {
           "version": "5.3",
           "changelog": "- Updated Review Tab\r\n- Adjusted icon descriptions\r\n- Added tinted variants\r\n- Changed \"Automatic\" icon\r\n- Fixed icon \"double shine\"\r\n- Adjusted icon names and descriptions\r\n- Updated support mail address\r\n- Added website link\r\n- Added Impressum and Datenschutzerklärung\r\n- Adjusted the \"Last Sync\" indicator to be more precise",
@@ -222,7 +229,7 @@
           "isPrerelease": false
         }
       ],
-      "lastUpdated": "2025-10-28T13:07:46Z"
+      "lastUpdated": "2025-11-17T11:12:15Z"
     },
     {
       "name": "Kompoze",
@@ -267,5 +274,5 @@
       "lastUpdated": "2025-09-20T09:27:43Z"
     }
   ],
-  "generatedAt": "2025-11-17T06:25:27.277Z"
+  "generatedAt": "2025-11-17T12:33:29.729Z"
 }
