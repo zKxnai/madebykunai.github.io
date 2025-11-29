@@ -2,8 +2,22 @@
   "apps": [
     {
       "name": "Cashly",
-      "version": "4.1.1",
+      "version": "4.2.1",
       "releases": [
+        {
+          "version": "4.2.1",
+          "changelog": "- Fixed JSON import issue",
+          "releaseUrl": "https://github.com/zKxnai/Cashly/releases/tag/4.2.1",
+          "publishedAt": "2025-11-29T15:39:48Z",
+          "isPrerelease": false
+        },
+        {
+          "version": "4.2",
+          "changelog": "- Adjusted Import/Export prompt\r\n- Adjusted Last Sync indicator\r\n- Adjusted separator for hyperlinks in Settings Tab\r\n- Adjusted button toolbar width\r\n- Adjusted Budget Period calculation\r\n- Adjusted transaction categories\r\n- Adjusted app UI to glassy look\r\n- Removed badge indicator for sorting\r\n- Added Website, Impressum and Datenschutz tag in Settings Tab\r\n- Added gradient background\r\n- Added feedback button in Settings Tab\r\n- Added \"In-App Purchase\" and \"Subscription\" category\r\n- Added additional chart types\r\n- Added option to customize the Dashboard Tab\r\n- Added payment date setting\r\n- Fixed transaction edits wont save\r\n- Fixed recurring payments edit mask will freeze on empty description\r\n- Fixed notification misfire\r\n- Fixed Smart Budget Period calculation\r\n- Fixed export prompt showing wrong transaction count\r\n- Fixed planned purchase categories showing wrong purchase count",
+          "releaseUrl": "https://github.com/zKxnai/Cashly/releases/tag/4.2",
+          "publishedAt": "2025-11-29T14:58:45Z",
+          "isPrerelease": false
+        },
         {
           "version": "4.1.1",
           "changelog": "- Fixed duplicate planned purchase categories (again)\r\n- Adjusted Icon Layer Size",
@@ -124,7 +138,7 @@
           "isPrerelease": false
         }
       ],
-      "lastUpdated": "2025-10-02T06:25:26Z"
+      "lastUpdated": "2025-11-29T15:39:48Z"
     },
     {
       "name": "readme",
@@ -274,5 +288,5 @@
       "lastUpdated": "2025-09-20T09:27:43Z"
     }
   ],
-  "generatedAt": "2025-11-29T12:29:58.697Z"
+  "generatedAt": "2025-11-29T18:21:18.514Z"
 }
