@@ -2,8 +2,15 @@
   "apps": [
     {
       "name": "Cashly",
-      "version": "4.2.1",
+      "version": "4.3",
       "releases": [
+        {
+          "version": "4.3",
+          "changelog": "- Removed legacy code for transaction categories\r\n- Adjusted bar and column chart UI icon\r\n- Fixed UI for app version section\r\n- Fixed issue with budget period picker",
+          "releaseUrl": "https://github.com/zKxnai/Cashly/releases/tag/4.3",
+          "publishedAt": "2025-12-17T06:02:59Z",
+          "isPrerelease": false
+        },
         {
           "version": "4.2.1",
           "changelog": "- Fixed JSON import issue",
@@ -138,7 +145,7 @@
           "isPrerelease": false
         }
       ],
-      "lastUpdated": "2025-11-29T15:39:48Z"
+      "lastUpdated": "2025-12-17T06:02:59Z"
     },
     {
       "name": "readme",
@@ -281,5 +288,5 @@
       "lastUpdated": "2025-08-29T06:51:50Z"
     }
   ],
-  "generatedAt": "2025-12-17T01:14:12.958Z"
+  "generatedAt": "2025-12-17T06:26:47.805Z"
 }
